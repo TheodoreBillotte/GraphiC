@@ -1,0 +1,8 @@
+/test_lib/
+/cmake-build-debug/
+/.idea/
+
+*.a
+*.o
+*.log
+*.txt
