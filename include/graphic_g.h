@@ -13,19 +13,34 @@
 
     #include "list.h"
 
+typedef struct drawables_s {
+    list_t *actors;
+    list_t *buttons;
+    list_t *texts;
+} drawables_t;
+
+typedef struct ids_s {
+    int button_id;
+    int actor_id;
+    int text_id;
+} ids_t;
+
 typedef struct graphic {
-    sfRenderWindow * window;
-    sfClock * game_clock;
-    int sprite_id;
+    sfRenderWindow *window;
+    sfClock *game_clock;
+    sfView *view;
+
+    void *game_data;
+    int nb_scenes;
+    int nb_layers;
     int scene;
 
-    list_t * textures;
-    list_t * actors;
-    list_t * buttons;
-    list_t * texts;
-    list_t * sounds;
-    list_t * musics;
-    list_t * fonts;
+    list_t *textures;
+    list_t *sounds;
+    list_t *musics;
+    list_t *fonts;
+    drawables_t **drawables;
+    ids_t *ids;
 
     void (*init)(struct graphic *);
     void (*update)(struct graphic *);
@@ -35,7 +50,7 @@ typedef struct graphic {
 } graphic_t;
 
 typedef struct {
-    sfClock * clock;
+    sfClock *clock;
     int height;
     int width;
     int speed;
@@ -46,33 +61,31 @@ typedef struct {
     sfIntRect rect;
 } animation_t;
 
-typedef struct {
-    animation_t * animation;
-    sfSprite * sprite;
-    sfVector2f position;
-    sfVector2f scale;
-    sfVector2f origin;
+typedef struct actor_s {
+    animation_t *animation;
+    sfSprite *sprite;
     sfFloatRect rect;
-
-    float direction;
-    float rotation;
-    float speed;
 
     int layer;
     int scene;
     int id;
+
+    void (*update)(graphic_t *, struct actor_s *);
 } actor_t;
+
+typedef struct {
+    sfText *text;
+
+    int scene;
+    int id;
+} text_t;
 
 typedef struct button button_t;
 struct button {
-    sfSprite * sprite;
-    sfVector2f position;
-    sfVector2f scale;
-    sfVector2f origin;
+    sfSprite *sprite;
     sfFloatRect rect;
-    sfText * text;
+    text_t *text;
 
-    int layer;
     int scene;
     int id;
 
@@ -82,23 +95,23 @@ struct button {
 };
 
 typedef struct {
-    sfSoundBuffer * buffer;
-    sfSound * sound;
+    sfSoundBuffer *buffer;
+    sfSound *sound;
     int id;
 } sound_t;
 
 typedef struct {
-    sfMusic * music;
+    sfMusic *music;
     int id;
 } music_t;
 
 typedef struct {
-    sfFont * font;
+    sfFont *font;
     int id;
 } font_t;
 
 typedef struct {
-    sfTexture * texture;
+    sfTexture *texture;
     int id;
 } texture_t;
 

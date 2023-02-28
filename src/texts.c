@@ -10,8 +10,10 @@
 
 #include "graphic.h"
 #include "fonts.h"
+#include "drawables.h"
+#include "texts.h"
 
-text_t * build_text(graphic_t * graphic, char * string, int font_id, int size)
+text_t *build_text(graphic_t * graphic, int font_id, int scene, int layer)
 {
     text_t * t = malloc(sizeof(text_t));
     sfText * text = sfText_create();
@@ -20,27 +22,28 @@ text_t * build_text(graphic_t * graphic, char * string, int font_id, int size)
     if (!text || !font)
         return NULL;
 
-    sfText_setString(text, string);
     sfText_setFont(text, font);
-    sfText_setCharacterSize(text, size);
 
-    t->id = list_size(graphic->texts);
+    t->id = graphic->ids->text_id++;
     t->text = text;
+    t->scene = scene;
+    t->layer = layer;
 
-    list_append(graphic->texts, t);
+    list_append(get_scene_drawable(graphic, scene, layer).texts, t);
     return t;
-}
-
-void draw_texts(graphic_t * graphic)
-{
-    for (node_t * texts = graphic->texts->head; texts; texts = texts->next) {
-        text_t * text = (text_t *) texts->data;
-        sfRenderWindow_drawText(graphic->window, text->text, NULL);
-    }
 }
 
 void destroy_text(text_t * text)
 {
     sfText_destroy(text->text);
     free(text);
+}
+
+void destroy_text_list(list_t * list)
+{
+    node_t * node = list->head;
+
+    for (; node; node = node->next)
+        destroy_text(node->data);
+    list_free(list, false);
 }

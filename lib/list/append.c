@@ -7,12 +7,10 @@
 
 #include "list.h"
 
-void list_append(list_t * list, void * data)
+void list_append_node(list_t *list, node_t *node)
 {
-    node_t * node = create_node(data);
     if (!list)
         return;
-
     list->size++;
     if (!list->tail) {
         list->tail = node;
@@ -22,6 +20,16 @@ void list_append(list_t * list, void * data)
         node->prev = list->tail;
         list->tail = node;
     }
+}
+
+void list_append(list_t *list, void *data)
+{
+    node_t * node;
+
+    if (!list)
+        return;
+    node = create_node(data);
+    list_append_node(list, node);
 }
 
 void list_append_list(list_t * list, list_t * to_append)

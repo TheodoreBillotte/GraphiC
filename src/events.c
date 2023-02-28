@@ -5,8 +5,6 @@
 ** file for events functions
 */
 
-#include <SFML/Window/Event.h>
-#include "graphic.h"
 #include "events.h"
 
 void play_events(graphic_t * graphic)
@@ -18,31 +16,55 @@ void play_events(graphic_t * graphic)
             sfRenderWindow_close(graphic->window);
         if (event.type == sfEvtMouseButtonPressed)
             play_button(graphic, event.mouseButton);
+        if (event.type == sfEvtMouseButtonReleased)
+            release_button(graphic, event.mouseButton);
         if (graphic->event != NULL)
             graphic->event(graphic, &event);
     }
 }
 
-void check_hover(graphic_t * graphic)
+void release_button(graphic_t *graphic, sfMouseButtonEvent mouse)
 {
-    sfVector2i mouse_pos = sfMouse_getPositionRenderWindow(graphic->window);
-
-    for (node_t * buttons = graphic->buttons->head; buttons; buttons =
-                                                            buttons->next) {
-        button_t * button = (button_t *) buttons->data;
-        if (button->on_hover && sfFloatRect_contains(&button->rect,
-                                (float) mouse_pos.x, (float) mouse_pos.y))
-            button->on_hover(graphic, button);
+    for (int layer = 0; layer < graphic->nb_layers; layer++) {
+        for (node_t *buttons = graphic->drawables[graphic->scene][layer]
+            .buttons->head; buttons; buttons = buttons->next) {
+            button_t *button = (button_t *) buttons->data;
+            check_release(graphic, mouse, button);
+        }
     }
 }
 
-void play_button(graphic_t * graphic, sfMouseButtonEvent mouse)
+void check_release(graphic_t *graphic, sfMouseButtonEvent mouse,
+                    button_t *button)
 {
-    for (node_t * buttons = graphic->buttons->head; buttons; buttons =
-        buttons->next) {
-        button_t * button = (button_t *) buttons->data;
-        if (button->on_click && sfFloatRect_contains
-                            (&button->rect, (float) mouse.x, (float) mouse.y))
-            button->on_click(graphic, button, mouse.button);
+    if (button->on_release && sfFloatRect_contains(&button->rect,
+                                (float) mouse.x, (float) mouse.y))
+        button->on_release(graphic, button, mouse.button);
+}
+
+void check_enter(graphic_t *graphic, button_t *button)
+{
+    if (button->on_enter && !list_contains(graphic->hover_buttons, button)) {
+        button->on_enter(graphic, button);
+        list_append(graphic->hover_buttons, button);
+    }
+}
+
+void check_exit(graphic_t *graphic, sfVector2i mouse)
+{
+    node_t *buttons = graphic->hover_buttons->head;
+
+    if (graphic->hover_buttons->head == NULL)
+        return;
+    while (buttons) {
+        button_t *button = (button_t *) buttons->data;
+        if (button->on_leave && !sfFloatRect_contains(&button->rect,
+                                (float) mouse.x, (float) mouse.y)) {
+            button->on_leave(graphic, button);
+            buttons = buttons->prev;
+            list_remove_data(graphic->hover_buttons, button, false);
+        }
+        if (buttons)
+            buttons = buttons->next;
     }
 }

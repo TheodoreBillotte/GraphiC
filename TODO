@@ -1,13 +1,15 @@
+Sort sprites:
+    V - using Z-Layering
+
+Actors:
+    V - Add update method to all actors
+
+Inputs:
+    X - Add support for text input
+
+Slider:
+    X - Add support for number slider
+
 Buttons:
-    - Hover function
-    - Click function
-
-Sounds:
-    - Play sound
-    - Stop sound
-    - Pause sound
-
-Fonts:
-    - Change font
-    - Change font size
-    - Change font color
+    V - On Enter and On Leave for mouse instead of On Hover
+    V - On Release

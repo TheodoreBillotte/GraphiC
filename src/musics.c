@@ -28,7 +28,7 @@ music_t * build_music(graphic_t * graphic, char * path, float volume, int loop)
 
 music_t * get_music(graphic_t * graphic, int music_id)
 {
-    node_t * music = graphic->musics;
+    node_t * music = graphic->musics->head;
 
     while (music && ((music_t *) music->data)->id != music_id)
         music = music->next;

@@ -9,7 +9,7 @@ CC = gcc
 CFLAGS = -W -Wall -Wextra -Werror -Iinclude -g3
 CFLAGS_TEST = -L. -lgraphic -lcriterion
 
-SRC = $(wildcard *.c)
+SRC = $(wildcard src/*.c)
 SRC += $(wildcard lib/list/*.c)
 OBJ = $(SRC:.c=.o)
 TARGET = libgraphic.a

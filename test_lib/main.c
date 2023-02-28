@@ -26,7 +26,7 @@ int main(void)
                                 sfResize | sfClose, NULL);
     sfRenderWindow_setFramerateLimit(window, 60);
 
-    graphic_t * game = build_game(window);
+    graphic_t * game = build_game(window, 8, 8);
     game->init = &init_function;
     game->update = &update_function;
 
@@ -36,16 +36,15 @@ int main(void)
 
 void init_function(graphic_t * graphic)
 {
-    build_texture(graphic, "test_lib/earth.png");
-    build_texture(graphic, "test_lib/button.png");
+    build_texture(graphic, "earth.png");
+    build_texture(graphic, "button.png");
 
-    actor_t * earth = build_actor(graphic, 0, (sfVector2f) {50, 50}, 0);
-    earth->animation = build_animation((sfIntRect) {0, 0, 300, 300},
-        (sfVector2i){15000, 300}, (sfVector2i){0, 0}, 10);
+    build_actor(graphic, 0, 0, 5);
 
-    build_font(graphic, "test_lib/monogram.ttf");
-    text_t * text = build_text(graphic, "BUTTON", 0, 20);
-    button_t * button = build_button(graphic, 1, (sfVector2f){100, 100}, 0);
+    build_font(graphic, "monogram.ttf");
+    text_t * text = build_text(graphic, 0, 0, 7);
+    sfText_setString(text->text, "Hello World");
+    button_t * button = build_button(graphic, 1, 0, 6);
     button->text = text;
     button->on_click = &button_click;
 }

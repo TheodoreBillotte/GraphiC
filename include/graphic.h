@@ -12,22 +12,35 @@
     #include <SFML/Audio.h>
     #include "list.h"
 
+typedef struct drawables_s {
+    list_t *actors;
+    list_t *buttons;
+    list_t *texts;
+} drawables_t;
+
+typedef struct ids_s {
+    int button_id;
+    int actor_id;
+    int text_id;
+} ids_t;
+
 typedef struct graphic {
     sfRenderWindow *window;
     sfClock *game_clock;
     sfView *view;
 
     void *game_data;
-    int sprite_id;
+    int nb_scenes;
+    int nb_layers;
     int scene;
 
     list_t *textures;
-    list_t *actors;
-    list_t *buttons;
-    list_t *texts;
     list_t *sounds;
     list_t *musics;
     list_t *fonts;
+    list_t *hover_buttons;
+    drawables_t **drawables;
+    ids_t *ids;
 
     void (*init)(struct graphic *);
     void (*update)(struct graphic *);
@@ -48,7 +61,7 @@ typedef struct {
     sfIntRect rect;
 } animation_t;
 
-typedef struct {
+typedef struct actor_s {
     animation_t *animation;
     sfSprite *sprite;
     sfFloatRect rect;
@@ -57,11 +70,14 @@ typedef struct {
     int scene;
     int id;
 
-    void (*update)(graphic_t *, struct actor *);
+    void (*update)(graphic_t *, struct actor_s *);
 } actor_t;
 
 typedef struct {
     sfText *text;
+
+    int scene;
+    int layer;
     int id;
 } text_t;
 
@@ -71,12 +87,13 @@ struct button {
     sfFloatRect rect;
     text_t *text;
 
-    int layer;
     int scene;
     int id;
 
     void (*on_hover)(graphic_t *, button_t *);
-    void (*on_release)(graphic_t *, button_t *);
+    void (*on_enter)(graphic_t *, button_t *);
+    void (*on_leave)(graphic_t *, button_t *);
+    void (*on_release)(graphic_t *, button_t *, sfMouseButton);
     void (*on_click)(graphic_t *, button_t *, sfMouseButton);
 };
 
@@ -101,7 +118,7 @@ typedef struct {
     int id;
 } texture_t;
 
-graphic_t *build_game(sfRenderWindow *window);
+graphic_t *build_game(sfRenderWindow *window, int nb_scenes, int nb_layers);
 void init_game(graphic_t *game);
 void game_update(graphic_t *graphic);
 void destroy_game(graphic_t *game);
