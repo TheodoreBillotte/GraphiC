@@ -1,5 +1,7 @@
 Sort sprites:
     V - using Z-Layering
+    V - can change layer for texts, actors and buttons
+    X - can change scene for texts, actors and buttons
 
 Actors:
     V - Add update method to all actors

@@ -7,7 +7,7 @@
 
 #include "list.h"
 
-void * list_pop_node(list_t *list, node_t *node)
+void *list_pop_node(list_t *list, node_t *node)
 {
     void * data = node->data;
 
@@ -15,7 +15,7 @@ void * list_pop_node(list_t *list, node_t *node)
     return data;
 }
 
-void * list_pop(list_t * list, int index)
+void *list_pop(list_t * list, int index)
 {
     return list_pop_node(list, list_get_node(list, index));
 }

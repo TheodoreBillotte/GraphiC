@@ -42,6 +42,7 @@ int list_count_func(list_t * list, int (*equals)(void *));
 
 void * list_get(list_t * list, int index);
 node_t * list_get_node(list_t * list, int index);
+node_t *list_get_node_by_data(list_t *list, void *data);
 
 void list_remove_node(list_t * list, node_t * node, bool free_data);
 void list_remove_data(list_t * list, void * data, bool free_data);

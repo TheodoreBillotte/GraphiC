@@ -51,3 +51,15 @@ node_t * list_get_node(list_t * list, int index)
     }
     return node;
 }
+
+node_t *list_get_node_by_data(list_t *list, void *data)
+{
+    node_t * node = list->head;
+
+    for (int i = 0; i < list->size; i++) {
+        if (node->data == data)
+            return node;
+        node = node->next;
+    }
+    return NULL;
+}
