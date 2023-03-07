@@ -14,10 +14,10 @@
 
 drawables_t **create_drawables(int nb_scenes, int nb_layers)
 {
-    drawables_t **drawables = malloc(sizeof(drawables_t*) * nb_layers);
-    for (int i = 0; i < nb_layers; i++) {
-        drawables[i] = malloc(sizeof(drawables_t) * nb_scenes);
-        for (int j = 0; j < nb_scenes; j++) {
+    drawables_t **drawables = malloc(sizeof(drawables_t*) * nb_scenes);
+    for (int i = 0; i < nb_scenes; i++) {
+        drawables[i] = malloc(sizeof(drawables_t) * nb_layers);
+        for (int j = 0; j < nb_layers; j++) {
             drawables[i][j].actors = create_list();
             drawables[i][j].buttons = create_list();
             drawables[i][j].texts = create_list();

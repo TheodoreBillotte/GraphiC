@@ -1,7 +1,9 @@
 Sort sprites:
     V - using Z-Layering
     V - can change layer for texts, actors and buttons
-    X - can change scene for texts, actors and buttons
+    V - can change scene for texts, actors and buttons
+    X - list of visible layer with int and each bit is a bool for is_visible or
+        is updated and each layer is affected by the layer mask
 
 Actors:
     V - Add update method to all actors
