@@ -14,6 +14,7 @@
 #include "texts.h"
 #include "fonts.h"
 #include "textures.h"
+#include "sliders.h"
 
 void init_function(struct graphic *);
 void update_function(struct graphic *);
@@ -34,22 +35,47 @@ int main(void)
     return 0;
 }
 
+void scroller_action(graphic_t *graphic, slider_t *slider, sfMouseButtonEvent mouse)
+{
+    printf("Slider value: %.2f\n", slider->value);
+}
+
 void init_function(graphic_t * graphic)
 {
     build_texture(graphic, "earth.png");
     build_texture(graphic, "button.png");
 
-    build_actor(graphic, 0, 0, 5);
+    actor_t *earth = build_actor(graphic, 0, 0, 0);
+    earth->animation = build_animation((sfIntRect) {0, 0, 300, 300},
+                   (sfVector2i) {15000, 300}, (sfVector2i) {0, 0}, 10);
 
-    build_font(graphic, "monogram.ttf");
-    text_t * text = build_text(graphic, 0, 0, 7);
+    build_font(graphic, "Roboto-Black.ttf");
+    text_t * text = build_text(graphic, 0, 0, 0);
     sfText_setString(text->text, "Hello World");
-    button_t * button = build_button(graphic, 1, 0, 6);
+    button_t * button = build_button(graphic, 1, 0, 0);
+
+    // SLIDER
+    sfTexture *bar = sfTexture_createFromFile("bar.png", NULL);
+    sfTexture *slider = sfTexture_createFromFile("slider.png", NULL);
+    slider_t *scroller = build_slider(graphic, (slider_constructor_t) {
+        .bar = bar,
+        .scroller = slider,
+        .pos = (sfVector2f) {100, 100},
+        .size = (sfVector2f) {200, 10},
+        .min_value = 1,
+        .max_value = 50,
+        .scene = 0,
+        .layer = 1
+    });
+    sfSprite_setOrigin(scroller->scroller, (sfVector2f) {5, 0});
+    scroller->on_click = &scroller_action;
+    scroller->on_release = &scroller_action;
+
     button->text = text;
     button->on_click = &button_click;
 }
 
-void button_click(graphic_t * graphic, button_t * button, sfMouseButton mouse)
+void button_click(graphic_t *graphic, button_t *button, sfMouseButton mouse)
 {
     if (mouse == sfMouseLeft)
         printf("Button clicked\n");

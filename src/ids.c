@@ -14,6 +14,7 @@ ids_t * build_ids(void)
 
     ids->actor_id = 0;
     ids->button_id = 0;
+    ids->slider_id = 0;
     ids->text_id = 0;
     return ids;
 }

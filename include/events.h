@@ -12,8 +12,8 @@
 
 void play_events(graphic_t * graphic);
 void play_button(graphic_t * graphic, sfMouseButtonEvent mouse);
-void cond_click(graphic_t *graphic, sfMouseButtonEvent mouse,
-                        button_t *button);
+void cond_click_button(graphic_t *graphic, sfMouseButtonEvent mouse,
+                    button_t *button);
 void check_hover(graphic_t * graphic);
 void cond_hover(graphic_t *graphic, sfVector2i mouse_pos,
                     button_t *button);

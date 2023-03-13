@@ -19,6 +19,7 @@
 #include "textures.h"
 #include "drawables.h"
 #include "ids.h"
+#include "sliders.h"
 
 graphic_t * build_game(sfRenderWindow * window, int nb_scenes, int nb_layers)
 {
@@ -79,6 +80,7 @@ void game_update(graphic_t * graphic)
             update_button(button);
         }
     }
+    update_sliders(graphic);
 }
 
 void destroy_lists(graphic_t * game)

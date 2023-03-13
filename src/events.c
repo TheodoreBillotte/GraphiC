@@ -6,12 +6,18 @@
 */
 
 #include "events.h"
+#include "sliders.h"
 
 void play_events(graphic_t * graphic)
 {
     sfEvent event;
     check_hover(graphic);
     while (sfRenderWindow_pollEvent(graphic->window, &event)) {
+        if (event.type == sfEvtResized) {
+            sfView *view = sfView_createFromRect((sfFloatRect)
+                {0, 0, event.size.width, event.size.height});
+            sfRenderWindow_setView(graphic->window, view);
+        }
         if (event.type == sfEvtClosed)
             sfRenderWindow_close(graphic->window);
         if (event.type == sfEvtMouseButtonPressed)
@@ -32,6 +38,10 @@ void release_button(graphic_t *graphic, sfMouseButtonEvent mouse)
             check_release(graphic, mouse, button);
         }
     }
+    for (int layer = 0; layer < graphic->nb_layers; layer++)
+        for (node_t *sliders = graphic->drawables[graphic->scene][layer]
+            .sliders->head; sliders; sliders = sliders->next)
+            slider_bar_release(graphic, sliders->data, mouse);
 }
 
 void check_release(graphic_t *graphic, sfMouseButtonEvent mouse,

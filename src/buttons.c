@@ -7,7 +7,7 @@
 
 #include <SFML/Graphics.h>
 #include <stdlib.h>
-
+#include <stdio.h>
 #include "buttons.h"
 #include "graphic.h"
 #include "textures.h"
@@ -54,11 +54,11 @@ void destroy_button_list(list_t * list)
 void update_button(button_t * button)
 {
     text_t * text = button->text;
-    sfFloatRect rect = sfText_getGlobalBounds(text->text);
-    sfFloatRect b_rect = sfSprite_getGlobalBounds(button->sprite);
-    button->rect = b_rect;
+    sfFloatRect text_rect = sfText_getGlobalBounds(text->text);
+    sfFloatRect button_rect = sfSprite_getGlobalBounds(button->sprite);
+    button->rect = button_rect;
     sfText_setPosition(text->text, (sfVector2f) {
-        b_rect.left + (b_rect.width - rect.width) / 2,
-        b_rect.top + (b_rect.height - rect.height) / 2
+        button_rect.left + (button_rect.width - text_rect.width) / 2,
+        button_rect.top + (button_rect.height - text_rect.height * 1.5) / 2
     });
 }

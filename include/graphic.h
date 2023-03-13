@@ -16,10 +16,12 @@ typedef struct drawables_s {
     list_t *actors;
     list_t *buttons;
     list_t *texts;
+    list_t *sliders;
 } drawables_t;
 
 typedef struct ids_s {
     int button_id;
+    int slider_id;
     int actor_id;
     int text_id;
 } ids_t;
@@ -88,6 +90,7 @@ struct button {
     text_t *text;
 
     int scene;
+    int layer;
     int id;
 
     void (*on_hover)(graphic_t *, button_t *);
@@ -95,6 +98,38 @@ struct button {
     void (*on_leave)(graphic_t *, button_t *);
     void (*on_release)(graphic_t *, button_t *, sfMouseButton);
     void (*on_click)(graphic_t *, button_t *, sfMouseButton);
+};
+
+typedef struct slider_constructor_s {
+    sfVector2f pos;
+    sfVector2f size;
+
+    sfTexture *bar;
+    sfTexture *scroller;
+
+    float min_value;
+    float max_value;
+
+    int layer;
+    int scene;
+} slider_constructor_t;
+
+typedef struct slider_s slider_t;
+struct slider_s {
+    sfSprite *scroller;
+    sfSprite *bar;
+
+    float max_value;
+    float min_value;
+    float value;
+
+    bool is_clicked;
+    int scene;
+    int layer;
+    int id;
+
+    void (*on_release)(graphic_t *, slider_t *, sfMouseButtonEvent);
+    void (*on_click)(graphic_t *, slider_t *, sfMouseButtonEvent);
 };
 
 typedef struct {
@@ -122,6 +157,5 @@ graphic_t *build_game(sfRenderWindow *window, int nb_scenes, int nb_layers);
 void init_game(graphic_t *game);
 void game_update(graphic_t *graphic);
 void destroy_game(graphic_t *game);
-void dame_draw(graphic_t *graphic);
 
 #endif
