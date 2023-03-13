@@ -54,12 +54,11 @@ void init_function(graphic_t * graphic)
     sfText_setString(text->text, "Hello World");
     button_t * button = build_button(graphic, 1, 0, 0);
 
-    // SLIDER
-    sfTexture *bar = sfTexture_createFromFile("bar.png", NULL);
-    sfTexture *slider = sfTexture_createFromFile("slider.png", NULL);
+    texture_t *bar = build_texture(graphic, "bar.png");
+    texture_t *slider = build_texture(graphic, "slider.png");
     slider_t *scroller = build_slider(graphic, (slider_constructor_t) {
-        .bar = bar,
-        .scroller = slider,
+        .bar = bar->id,
+        .scroller = slider->id,
         .pos = (sfVector2f) {100, 100},
         .size = (sfVector2f) {200, 10},
         .min_value = 1,
@@ -68,7 +67,6 @@ void init_function(graphic_t * graphic)
         .layer = 1
     });
     sfSprite_setOrigin(scroller->scroller, (sfVector2f) {5, 0});
-    scroller->on_click = &scroller_action;
     scroller->on_release = &scroller_action;
 
     button->text = text;

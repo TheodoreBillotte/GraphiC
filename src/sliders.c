@@ -21,16 +21,11 @@ slider_t *build_slider(graphic_t *graphic, slider_constructor_t constructor)
     slider->layer = constructor.layer;
     slider->scene = constructor.scene;
     slider->id = graphic->ids->slider_id++;
-    sfSprite_setTexture(slider->bar, constructor.bar, sfTrue);
-    sfSprite_setTexture(slider->scroller, constructor.scroller, sfTrue);
-    sfSprite_setPosition(slider->bar, constructor.pos);
-    sfSprite_setPosition(slider->scroller, constructor.pos);
-    sfFloatRect bar_rect = sfSprite_getGlobalBounds(slider->bar);
-    sfSprite_setScale(slider->bar, (sfVector2f) {constructor.size.x /
-                bar_rect.width,constructor.size.y / bar_rect.height});
-    list_append(get_drawable(graphic, constructor.layer).sliders, slider);
     slider->on_click = NULL;
     slider->on_release = NULL;
+    slider->is_clicked = false;
+    slider_set_values(graphic, slider, constructor);
+    list_append(get_drawable(graphic, constructor.layer).sliders, slider);
     return slider;
 }
 

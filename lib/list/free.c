@@ -19,6 +19,7 @@ void list_free(list_t * list, bool free_data)
         node = node->next;
         if (free_data)
             free(tmp->data);
+        free(tmp);
     }
     free(list);
 }

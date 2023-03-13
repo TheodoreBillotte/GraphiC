@@ -103,6 +103,10 @@ void destroy_game(graphic_t * game)
     list_free(game->sounds, false);
     list_free(game->musics, false);
     list_free(game->fonts, false);
+    list_free(game->hover_buttons, false);
     sfRenderWindow_destroy(game->window);
     sfClock_destroy(game->game_clock);
+    sfView_destroy(game->view);
+    free(game->ids);
+    free(game);
 }

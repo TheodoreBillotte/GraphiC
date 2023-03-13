@@ -104,8 +104,8 @@ typedef struct slider_constructor_s {
     sfVector2f pos;
     sfVector2f size;
 
-    sfTexture *bar;
-    sfTexture *scroller;
+    int bar;
+    int scroller;
 
     float min_value;
     float max_value;

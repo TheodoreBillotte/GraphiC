@@ -19,5 +19,7 @@ void slider_bar_release(graphic_t *graphic, slider_t *slider,
                     sfMouseButtonEvent mouse);
 void destroy_slider_list(list_t *list);
 void destroy_slider(slider_t *slider);
+void slider_set_values(graphic_t *graphic, slider_t *slider,
+                        slider_constructor_t constructor);
 
 #endif
