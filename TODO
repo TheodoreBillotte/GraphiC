@@ -12,7 +12,10 @@ Inputs:
     X - Add support for text input
 
 Slider:
-    X - Add support for number slider
+    V - Add support for number slider
+
+Dropdown:
+    X - Add support for dropdown
 
 Buttons:
     V - On Enter and On Leave for mouse instead of On Hover
