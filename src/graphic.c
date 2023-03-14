@@ -21,11 +21,11 @@
 #include "ids.h"
 #include "sliders.h"
 
-graphic_t * build_game(sfRenderWindow * window, int nb_scenes, int nb_layers)
+graphic_t * build_game(sfRenderWindow *window, int nb_scenes, int nb_layers)
 {
     graphic_t * game = malloc(sizeof(graphic_t));
     game->window = window;
-    game->view = sfView_create();
+    game->view = NULL;
     game->game_clock = sfClock_create();
     game->scene = 0;
     game->textures = create_list();

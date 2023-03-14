@@ -14,9 +14,10 @@ void play_events(graphic_t * graphic)
     check_hover(graphic);
     while (sfRenderWindow_pollEvent(graphic->window, &event)) {
         if (event.type == sfEvtResized) {
-            sfView *view = sfView_createFromRect((sfFloatRect)
-                {0, 0, event.size.width, event.size.height});
-            sfRenderWindow_setView(graphic->window, view);
+            sfView_destroy(graphic->view);
+            graphic->view = sfView_createFromRect((sfFloatRect) {0, 0,
+                event.size.width, event.size.height});
+            sfRenderWindow_setView(graphic->window, graphic->view);
         }
         if (event.type == sfEvtClosed)
             sfRenderWindow_close(graphic->window);
