@@ -59,8 +59,8 @@ void draw_game(graphic_t *graphic)
 
 void destroy_drawables(graphic_t *graphic)
 {
-    for (int i = 0; i < graphic->nb_layers; i++) {
-        for (int j = 0; j < graphic->nb_scenes; j++) {
+    for (int i = 0; i < graphic->nb_scenes; i++) {
+        for (int j = 0; j < graphic->nb_layers; j++) {
             destroy_actor_list(graphic->drawables[i][j].actors);
             destroy_button_list(graphic->drawables[i][j].buttons);
             destroy_text_list(graphic->drawables[i][j].texts);
