@@ -11,7 +11,7 @@
 #include "dropdown.h"
 
 void cond_hover(graphic_t *graphic, sfVector2i mouse_pos,
-                        button_t *button)
+                button_t *button)
 {
     if (sfFloatRect_contains(&button->rect,
                 (float) mouse_pos.x, (float) mouse_pos.y)) {
@@ -32,7 +32,7 @@ void check_hover(graphic_t * graphic)
             cond_hover(graphic, mouse_pos, button);
         }
         for (node_t *dropdowns = get_drawable(graphic, layer).dropdowns->head;
-             dropdowns; dropdowns = dropdowns->next) {
+            dropdowns; dropdowns = dropdowns->next) {
             dropdown_t *dropdown = (dropdown_t *) dropdowns->data;
             cond_dropdown_hover(graphic, mouse_pos, dropdown);
         }
@@ -49,12 +49,12 @@ void play_button(graphic_t * graphic, sfMouseButtonEvent mouse)
             cond_click_button(graphic, mouse, button);
         }
         for (node_t *sliders = get_drawable(graphic, layer).sliders->head;
-             sliders; sliders = sliders->next) {
+            sliders; sliders = sliders->next) {
             slider_t *slider = (slider_t *) sliders->data;
             cond_click_slider(graphic, mouse, slider);
         }
         for (node_t *dropdowns = get_drawable(graphic, layer).dropdowns->head;
-             dropdowns; dropdowns = dropdowns->next) {
+            dropdowns; dropdowns = dropdowns->next) {
             dropdown_t *dropdown = (dropdown_t *) dropdowns->data;
             cond_click_dropdown(graphic, dropdown, mouse);
         }

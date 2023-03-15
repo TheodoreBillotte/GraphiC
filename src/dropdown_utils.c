@@ -7,7 +7,7 @@
 
 #include "dropdown.h"
 
-void change_bg_pos(dropdown_t *dropdown, button_t *button)
+void change_bg_pos(dropdown_t *dropdown)
 {
     sfFloatRect rect = sfSprite_getGlobalBounds(dropdown->sprite);
     sfVector2f bg = sfRectangleShape_getPosition(dropdown->bg);

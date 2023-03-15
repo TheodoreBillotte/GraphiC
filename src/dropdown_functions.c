@@ -10,7 +10,7 @@
 #include "events.h"
 
 void cond_click_dropdown(graphic_t *graphic, dropdown_t *dropdown,
-                         sfMouseButtonEvent mouse)
+                            sfMouseButtonEvent mouse)
 {
     sfFloatRect rect = sfSprite_getGlobalBounds(dropdown->sprite);
     if (sfFloatRect_contains(&rect, mouse.x, mouse.y)) {

@@ -64,7 +64,7 @@ void setup_new_button(dropdown_t *dropdown, button_t *button)
     sfVector2f bg = sfRectangleShape_getPosition(dropdown->bg);
 
     if (bg.x == 0 && bg.y == 0)
-        change_bg_pos(dropdown, button);
+        change_bg_pos(dropdown);
     bg = sfRectangleShape_getPosition(dropdown->bg);
     if (last_button) {
         sfFloatRect bt = sfSprite_getGlobalBounds(((button_t *)

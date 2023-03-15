@@ -38,7 +38,7 @@ void destroy_slider(slider_t *slider)
 }
 
 void cond_click_slider(graphic_t *graphic, sfMouseButtonEvent mouse,
-                       slider_t *slider)
+                        slider_t *slider)
 {
     sfFloatRect slider_rect = sfSprite_getGlobalBounds(slider->scroller);
     sfFloatRect bar_rect = sfSprite_getGlobalBounds(slider->bar);

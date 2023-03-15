@@ -85,6 +85,15 @@ typedef struct {
     int id;
 } text_t;
 
+typedef struct button_constructor_s {
+    sfVector2f pos;
+    sfVector2f size;
+
+    int texture;
+    int layer;
+    int scene;
+} button_constructor_t;
+
 typedef struct button button_t;
 struct button {
     sfSprite *sprite;

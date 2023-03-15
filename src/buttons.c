@@ -13,8 +13,7 @@
 #include "textures.h"
 #include "drawables.h"
 
-button_t * build_button(graphic_t * graphic, int texture_id,
-                        int scene, int layer)
+button_t * build_button(graphic_t * graphic, button_constructor_t constructor)
 {
     button_t *button = malloc(sizeof(button_t));
 
@@ -25,13 +24,16 @@ button_t * build_button(graphic_t * graphic, int texture_id,
     button->on_enter = NULL;
     button->on_leave = NULL;
     button->on_release = NULL;
-    button->scene = scene;
-    button->layer = layer;
+    button->scene = constructor.scene;
+    button->layer = constructor.layer;
     button->id = graphic->ids->button_id++;
     button->rect = sfSprite_getGlobalBounds(button->sprite);
-    sfSprite_setTexture(button->sprite,
-                        get_texture(graphic, texture_id)->texture, sfTrue);
-    list_append(get_scene_drawable(graphic, scene, layer).buttons, button);
+    sfSprite_setTexture(button->sprite, get_texture(graphic,
+                        constructor.texture)->texture, sfTrue);
+    sfSprite_setPosition(button->sprite, constructor.pos);
+    sfSprite_setScale(button->sprite, constructor.size);
+    list_append(get_scene_drawable(graphic, button->scene, button->layer)
+                .buttons, button);
     return button;
 }
 
