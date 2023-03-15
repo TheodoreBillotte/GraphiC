@@ -12,6 +12,7 @@
 #include "buttons.h"
 #include "texts.h"
 #include "sliders.h"
+#include "dropdown.h"
 
 drawables_t **create_drawables(int nb_scenes, int nb_layers)
 {
@@ -23,6 +24,7 @@ drawables_t **create_drawables(int nb_scenes, int nb_layers)
             drawables[i][j].buttons = create_list();
             drawables[i][j].texts = create_list();
             drawables[i][j].sliders = create_list();
+            drawables[i][j].dropdowns = create_list();
         }
     }
     return drawables;
@@ -65,6 +67,7 @@ void destroy_drawables(graphic_t *graphic)
             destroy_button_list(graphic->drawables[i][j].buttons);
             destroy_text_list(graphic->drawables[i][j].texts);
             destroy_slider_list(graphic->drawables[i][j].sliders);
+            destroy_dropdown_list(graphic->drawables[i][j].dropdowns);
         }
         free(graphic->drawables[i]);
     }

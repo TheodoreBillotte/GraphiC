@@ -7,6 +7,8 @@
 
 #include "events.h"
 #include "sliders.h"
+#include "drawables.h"
+#include "dropdown.h"
 
 void play_events(graphic_t * graphic)
 {
@@ -33,16 +35,16 @@ void play_events(graphic_t * graphic)
 void release_button(graphic_t *graphic, sfMouseButtonEvent mouse)
 {
     for (int layer = 0; layer < graphic->nb_layers; layer++) {
-        for (node_t *buttons = graphic->drawables[graphic->scene][layer]
-            .buttons->head; buttons; buttons = buttons->next) {
-            button_t *button = (button_t *) buttons->data;
-            check_release(graphic, mouse, button);
-        }
-    }
-    for (int layer = 0; layer < graphic->nb_layers; layer++)
-        for (node_t *sliders = graphic->drawables[graphic->scene][layer]
-            .sliders->head; sliders; sliders = sliders->next)
+        for (node_t *buttons = get_drawable(graphic, layer).buttons->head;
+                buttons; buttons = buttons->next)
+            check_release(graphic, mouse, buttons->data);
+        for (node_t *sliders = get_drawable(graphic, layer).sliders->head;
+                sliders; sliders = sliders->next)
             slider_bar_release(graphic, sliders->data, mouse);
+        for (node_t *dropdowns = get_drawable(graphic, layer).dropdowns->head;
+                dropdowns; dropdowns = dropdowns->next)
+            cond_dropdown_release(graphic, dropdowns->data, mouse);
+    }
 }
 
 void check_release(graphic_t *graphic, sfMouseButtonEvent mouse,
@@ -50,7 +52,7 @@ void check_release(graphic_t *graphic, sfMouseButtonEvent mouse,
 {
     if (button->on_release && sfFloatRect_contains(&button->rect,
                                 (float) mouse.x, (float) mouse.y))
-        button->on_release(graphic, button, mouse.button);
+        button->on_release(graphic, button, mouse);
 }
 
 void check_enter(graphic_t *graphic, button_t *button)

@@ -17,6 +17,7 @@ typedef struct drawables_s {
     list_t *buttons;
     list_t *texts;
     list_t *sliders;
+    list_t *dropdowns;
 } drawables_t;
 
 typedef struct ids_s {
@@ -24,6 +25,7 @@ typedef struct ids_s {
     int slider_id;
     int actor_id;
     int text_id;
+    int dropdown_id;
 } ids_t;
 
 typedef struct graphic {
@@ -96,8 +98,8 @@ struct button {
     void (*on_hover)(graphic_t *, button_t *);
     void (*on_enter)(graphic_t *, button_t *);
     void (*on_leave)(graphic_t *, button_t *);
-    void (*on_release)(graphic_t *, button_t *, sfMouseButton);
-    void (*on_click)(graphic_t *, button_t *, sfMouseButton);
+    void (*on_release)(graphic_t *, button_t *, sfMouseButtonEvent);
+    void (*on_click)(graphic_t *, button_t *, sfMouseButtonEvent);
 };
 
 typedef struct slider_constructor_s {
@@ -130,6 +132,49 @@ struct slider_s {
 
     void (*on_release)(graphic_t *, slider_t *, sfMouseButtonEvent);
     void (*on_click)(graphic_t *, slider_t *, sfMouseButtonEvent);
+};
+
+typedef enum direction_e {
+    LEFT,
+    BOTTOM,
+    RIGHT,
+    TOP
+} direction_t;
+
+typedef enum dropdown_state_e {
+    CLOSED,
+    OPENED
+} dropdown_state_t;
+
+typedef struct dropdown_constructor_s {
+    direction_t extend_side;
+    sfColor bg_color;
+    sfVector2f pos;
+    text_t *text;
+
+    int texture;
+    int width;
+    int scene;
+    int layer;
+
+} dropdown_constructor_t;
+
+typedef struct dropdown_s dropdown_t;
+struct dropdown_s {
+    direction_t extend_side;
+    dropdown_state_t state;
+    sfRectangleShape *bg;
+    sfSprite *sprite;
+    list_t *buttons;
+    text_t *text;
+
+    int scene;
+    int layer;
+    int id;
+
+    void (*on_hover)(graphic_t *, dropdown_t *);
+    void (*on_release)(graphic_t *, dropdown_t *, sfMouseButtonEvent);
+    void (*on_click)(graphic_t *, dropdown_t *, sfMouseButtonEvent);
 };
 
 typedef struct {

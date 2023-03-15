@@ -16,5 +16,6 @@ ids_t * build_ids(void)
     ids->button_id = 0;
     ids->slider_id = 0;
     ids->text_id = 0;
+    ids->dropdown_id = 0;
     return ids;
 }

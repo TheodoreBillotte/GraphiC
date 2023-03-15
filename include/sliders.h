@@ -21,5 +21,7 @@ void destroy_slider_list(list_t *list);
 void destroy_slider(slider_t *slider);
 void slider_set_values(graphic_t *graphic, slider_t *slider,
                         slider_constructor_t constructor);
+void cond_click_slider(graphic_t *graphic, sfMouseButtonEvent mouse,
+                       slider_t *slider);
 
 #endif

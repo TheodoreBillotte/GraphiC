@@ -36,3 +36,16 @@ void destroy_slider(slider_t *slider)
     sfSprite_destroy(slider->scroller);
     free(slider);
 }
+
+void cond_click_slider(graphic_t *graphic, sfMouseButtonEvent mouse,
+                       slider_t *slider)
+{
+    sfFloatRect slider_rect = sfSprite_getGlobalBounds(slider->scroller);
+    sfFloatRect bar_rect = sfSprite_getGlobalBounds(slider->bar);
+    if (sfFloatRect_contains(&slider_rect, (float) mouse.x, (float) mouse.y)) {
+        if (slider->on_click)
+            slider->on_click(graphic, slider, mouse);
+        slider->is_clicked = true;
+    } else if (sfFloatRect_contains(&bar_rect, mouse.x, mouse.y))
+        slider_bar_click(graphic, slider, mouse);
+}

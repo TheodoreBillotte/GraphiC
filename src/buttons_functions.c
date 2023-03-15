@@ -42,3 +42,12 @@ button_t *get_button(graphic_t * graphic, int id)
     }
     return NULL;
 }
+
+void cond_click_button(graphic_t *graphic, sfMouseButtonEvent mouse,
+                       button_t *button)
+{
+    button->rect = sfSprite_getGlobalBounds(button->sprite);
+    if (button->on_click && sfFloatRect_contains(&button->rect, (float)
+            mouse.x, (float) mouse.y))
+        button->on_click(graphic, button, mouse);
+}
