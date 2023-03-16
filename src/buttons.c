@@ -17,21 +17,18 @@ button_t * build_button(graphic_t * graphic, button_constructor_t constructor)
 {
     button_t *button = malloc(sizeof(button_t));
 
+    *button = (button_t) {0};
     button->sprite = sfSprite_create();
-    button->text = NULL;
-    button->on_click = NULL;
-    button->on_hover = NULL;
-    button->on_enter = NULL;
-    button->on_leave = NULL;
-    button->on_release = NULL;
     button->scene = constructor.scene;
     button->layer = constructor.layer;
     button->id = graphic->ids->button_id++;
-    button->rect = sfSprite_getGlobalBounds(button->sprite);
+    button->user_data = constructor.user_data;
     sfSprite_setTexture(button->sprite, get_texture(graphic,
                         constructor.texture)->texture, sfTrue);
     sfSprite_setPosition(button->sprite, constructor.pos);
     sfSprite_setScale(button->sprite, constructor.size);
+    button->rect = sfSprite_getGlobalBounds(button->sprite);
+
     list_append(get_scene_drawable(graphic, button->scene, button->layer)
                 .buttons, button);
     return button;
@@ -39,6 +36,8 @@ button_t * build_button(graphic_t * graphic, button_constructor_t constructor)
 
 void destroy_button(button_t *button)
 {
+    if (button->on_destroy)
+        button->on_destroy(button);
     sfSprite_destroy(button->sprite);
     free(button);
 }

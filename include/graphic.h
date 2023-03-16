@@ -92,10 +92,14 @@ typedef struct button_constructor_s {
     int texture;
     int layer;
     int scene;
+
+    void *user_data;
 } button_constructor_t;
 
 typedef struct button button_t;
 struct button {
+    void *user_data;
+
     sfSprite *sprite;
     sfFloatRect rect;
     text_t *text;
@@ -104,11 +108,13 @@ struct button {
     int layer;
     int id;
 
+    void (*on_draw)(graphic_t *, button_t *);
     void (*on_hover)(graphic_t *, button_t *);
     void (*on_enter)(graphic_t *, button_t *);
     void (*on_leave)(graphic_t *, button_t *);
     void (*on_release)(graphic_t *, button_t *, sfMouseButtonEvent);
     void (*on_click)(graphic_t *, button_t *, sfMouseButtonEvent);
+    void (*on_destroy)(button_t *);
 };
 
 typedef struct slider_constructor_s {
@@ -165,7 +171,6 @@ typedef struct dropdown_constructor_s {
     int width;
     int scene;
     int layer;
-
 } dropdown_constructor_t;
 
 typedef struct dropdown_s dropdown_t;

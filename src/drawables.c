@@ -48,9 +48,12 @@ void draw_game(graphic_t *graphic)
             sfRenderWindow_drawSprite(graphic->window,
                         ((actor_t *) list->data)->sprite, NULL);
         for (node_t *list = get_drawable(graphic, i).buttons->head; list;
-                list = list->next)
+                list = list->next) {
+            ((button_t *) list->data)->on_draw ?
+                ((button_t *) list->data)->on_draw(graphic, list->data) : 0;
             sfRenderWindow_drawSprite(graphic->window,
                         ((button_t *) list->data)->sprite, NULL);
+        }
         for (node_t *list = get_drawable(graphic, i).texts->head; list;
                 list = list->next)
             sfRenderWindow_drawText(graphic->window,

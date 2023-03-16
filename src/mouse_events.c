@@ -14,7 +14,7 @@ void cond_hover(graphic_t *graphic, sfVector2i mouse_pos,
                 button_t *button)
 {
     if (sfFloatRect_contains(&button->rect,
-                (float) mouse_pos.x, (float) mouse_pos.y)) {
+            (float) mouse_pos.x, (float) mouse_pos.y)) {
         check_enter(graphic, button);
         if (button->on_hover)
             button->on_hover(graphic, button);
