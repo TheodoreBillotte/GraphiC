@@ -8,6 +8,7 @@
 #include "graphic.h"
 #include "drawables.h"
 #include "dropdown.h"
+#include "text_inputs.h"
 
 void draw_others(graphic_t *graphic, int layer)
 {
@@ -21,5 +22,9 @@ void draw_others(graphic_t *graphic, int layer)
     for (node_t *list = get_drawable(graphic, layer).dropdowns->head; list;
                 list = list->next) {
         draw_dropdown(graphic, (dropdown_t *) list->data);
+    }
+    for (node_t *list = get_drawable(graphic, layer).text_inputs->head; list;
+                list = list->next) {
+        draw_text_input(graphic, (text_input_t *) list->data);
     }
 }

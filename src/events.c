@@ -9,6 +9,7 @@
 #include "sliders.h"
 #include "drawables.h"
 #include "dropdown.h"
+#include "text_inputs.h"
 
 void play_events(graphic_t * graphic)
 {
@@ -27,6 +28,8 @@ void play_events(graphic_t * graphic)
             play_button(graphic, event.mouseButton);
         if (event.type == sfEvtMouseButtonReleased)
             release_button(graphic, event.mouseButton);
+        if (event.type == sfEvtTextEntered)
+            play_key_pressed(graphic, event.text);
         if (graphic->event != NULL)
             graphic->event(graphic, &event);
     }
@@ -44,6 +47,9 @@ void release_button(graphic_t *graphic, sfMouseButtonEvent mouse)
         for (node_t *dropdowns = get_drawable(graphic, layer).dropdowns->head;
                 dropdowns; dropdowns = dropdowns->next)
             cond_dropdown_release(graphic, dropdowns->data, mouse);
+        for (node_t *text_inputs = get_drawable(graphic, layer).
+                text_inputs->head; text_inputs; text_inputs = text_inputs->next)
+            text_input_release(graphic, text_inputs->data, mouse);
     }
 }
 

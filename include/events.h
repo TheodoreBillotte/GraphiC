@@ -22,5 +22,6 @@ void check_release(graphic_t *p_graphic, sfMouseButtonEvent mouse,
                     button_t *p_button);
 void check_enter(graphic_t *graphic, button_t *button);
 void check_exit(graphic_t *graphic, sfVector2i mouse);
+void play_key_pressed(graphic_t *graphic, sfTextEvent event);
 
 #endif

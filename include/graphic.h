@@ -18,6 +18,7 @@ typedef struct drawables_s {
     list_t *texts;
     list_t *sliders;
     list_t *dropdowns;
+    list_t *text_inputs;
 } drawables_t;
 
 typedef struct ids_s {
@@ -26,6 +27,7 @@ typedef struct ids_s {
     int actor_id;
     int text_id;
     int dropdown_id;
+    int text_input_id;
 } ids_t;
 
 typedef struct graphic {
@@ -92,10 +94,14 @@ typedef struct button_constructor_s {
     int texture;
     int layer;
     int scene;
+
+    void *user_data;
 } button_constructor_t;
 
 typedef struct button button_t;
 struct button {
+    void *user_data;
+
     sfSprite *sprite;
     sfFloatRect rect;
     text_t *text;
@@ -104,11 +110,13 @@ struct button {
     int layer;
     int id;
 
+    void (*on_draw)(graphic_t *, button_t *);
     void (*on_hover)(graphic_t *, button_t *);
     void (*on_enter)(graphic_t *, button_t *);
     void (*on_leave)(graphic_t *, button_t *);
     void (*on_release)(graphic_t *, button_t *, sfMouseButtonEvent);
     void (*on_click)(graphic_t *, button_t *, sfMouseButtonEvent);
+    void (*on_destroy)(button_t *);
 };
 
 typedef struct slider_constructor_s {
@@ -165,7 +173,6 @@ typedef struct dropdown_constructor_s {
     int width;
     int scene;
     int layer;
-
 } dropdown_constructor_t;
 
 typedef struct dropdown_s dropdown_t;
@@ -185,6 +192,40 @@ struct dropdown_s {
     void (*on_release)(graphic_t *, dropdown_t *, sfMouseButtonEvent);
     void (*on_click)(graphic_t *, dropdown_t *, sfMouseButtonEvent);
 };
+
+typedef struct text_input_constructor_s {
+    sfVector2f pos;
+    sfVector2f size;
+
+    sfColor bg_color;
+    sfColor text_color;
+
+    int font;
+    int layer;
+    int scene;
+    int font_size;
+    int max_char;
+} text_input_constructor_t;
+
+typedef struct text_input_s {
+    sfRectangleShape *bg;
+    sfFloatRect rect;
+    sfText *text;
+
+    bool is_selected;
+    bool is_visible;
+
+    char *content;
+    int cursor;
+    int max_char;
+    int scene;
+    int layer;
+    int id;
+
+    void (*on_click)(graphic_t *, struct text_input_s *, sfMouseButtonEvent);
+    void (*on_release)(graphic_t *, struct text_input_s *, sfMouseButtonEvent);
+    void (*on_validate)(graphic_t *, struct text_input_s *);
+} text_input_t;
 
 typedef struct {
     sfSoundBuffer *buffer;

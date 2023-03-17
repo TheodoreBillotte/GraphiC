@@ -40,13 +40,8 @@ button_t *dropdown_add_button(graphic_t *graphic, dropdown_t *dropdown,
 {
     button_t *button = malloc(sizeof(button_t));
 
+    *button = (button_t) {0};
     button->sprite = sfSprite_create();
-    button->text = NULL;
-    button->on_click = NULL;
-    button->on_hover = NULL;
-    button->on_enter = NULL;
-    button->on_leave = NULL;
-    button->on_release = NULL;
     button->id = list_size(dropdown->buttons);
     sfSprite_setTexture(button->sprite,
         get_texture(graphic, texture_id)->texture, sfTrue);

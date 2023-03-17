@@ -13,6 +13,7 @@
 #include "texts.h"
 #include "sliders.h"
 #include "dropdown.h"
+#include "text_inputs.h"
 
 drawables_t **create_drawables(int nb_scenes, int nb_layers)
 {
@@ -25,6 +26,7 @@ drawables_t **create_drawables(int nb_scenes, int nb_layers)
             drawables[i][j].texts = create_list();
             drawables[i][j].sliders = create_list();
             drawables[i][j].dropdowns = create_list();
+            drawables[i][j].text_inputs = create_list();
         }
     }
     return drawables;
@@ -48,9 +50,12 @@ void draw_game(graphic_t *graphic)
             sfRenderWindow_drawSprite(graphic->window,
                         ((actor_t *) list->data)->sprite, NULL);
         for (node_t *list = get_drawable(graphic, i).buttons->head; list;
-                list = list->next)
+                list = list->next) {
+            ((button_t *) list->data)->on_draw ?
+                ((button_t *) list->data)->on_draw(graphic, list->data) : 0;
             sfRenderWindow_drawSprite(graphic->window,
                         ((button_t *) list->data)->sprite, NULL);
+        }
         for (node_t *list = get_drawable(graphic, i).texts->head; list;
                 list = list->next)
             sfRenderWindow_drawText(graphic->window,
@@ -68,6 +73,7 @@ void destroy_drawables(graphic_t *graphic)
             destroy_text_list(graphic->drawables[i][j].texts);
             destroy_slider_list(graphic->drawables[i][j].sliders);
             destroy_dropdown_list(graphic->drawables[i][j].dropdowns);
+            destroy_text_input_list(graphic->drawables[i][j].text_inputs);
         }
         free(graphic->drawables[i]);
     }
