@@ -70,8 +70,9 @@ void slider_bar_release(graphic_t *graphic, slider_t *slider,
                         sfMouseButtonEvent mouse)
 {
     sfFloatRect rect = sfSprite_getGlobalBounds(slider->bar);
-    if ((slider->is_clicked && slider->on_release) ||
+    if (slider->is_clicked ||
             sfFloatRect_contains(&rect, mouse.x, mouse.y))
-        slider->on_release(graphic, slider, mouse);
+        if (slider->on_release)
+            slider->on_release(graphic, slider, mouse);
     slider->is_clicked = false;
 }
