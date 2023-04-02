@@ -38,6 +38,8 @@ void play_events(graphic_t * graphic)
 void release_button(graphic_t *graphic, sfMouseButtonEvent mouse)
 {
     for (int layer = 0; layer < graphic->nb_layers; layer++) {
+        if (!GET_LAYER_OPTION(graphic, layer, 1))
+            continue;
         for (node_t *buttons = get_drawable(graphic, layer).buttons->head;
                 buttons; buttons = buttons->next)
             check_release(graphic, mouse, buttons->data);

@@ -29,7 +29,6 @@ void play_animation(actor_t * actor)
 {
     if (!(actor->animation))
         return;
-
     if (sfClock_getElapsedTime(actor->animation->clock).microseconds >=
                                     1000000 / actor->animation->speed) {
         if (actor->animation->width > actor->animation->rect.left +

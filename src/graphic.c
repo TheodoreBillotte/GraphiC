@@ -8,7 +8,8 @@
 #include <SFML/Graphics.h>
 #include <SFML/Window.h>
 #include <stdlib.h>
-
+#include <string.h>
+#include <stdio.h>
 #include "graphic.h"
 #include "animations.h"
 #include "sounds.h"
@@ -24,23 +25,20 @@
 graphic_t * build_game(sfRenderWindow *window, int nb_scenes, int nb_layers)
 {
     graphic_t * game = malloc(sizeof(graphic_t));
+
+    *game = (graphic_t) {0};
     game->window = window;
-    game->view = NULL;
     game->game_clock = sfClock_create();
-    game->scene = 0;
     game->textures = create_list();
     game->sounds = create_list();
     game->musics = create_list();
     game->fonts = create_list();
     game->hover_buttons = create_list();
-    game->init = NULL;
-    game->update = NULL;
-    game->close = NULL;
-    game->draw = NULL;
-    game->event = NULL;
     game->nb_scenes = nb_scenes;
     game->nb_layers = nb_layers;
     game->drawables = create_drawables(nb_scenes, nb_layers);
+    game->layers_options = malloc(sizeof(int) * nb_layers);
+    memset(game->layers_options, 255, sizeof(int) * nb_layers);
     game->ids = build_ids();
     return game;
 }
@@ -68,6 +66,8 @@ void init_game(graphic_t * game)
 void game_update(graphic_t * graphic)
 {
     for (int i = 0; i < graphic->nb_layers; i++) {
+        if (!GET_LAYER_OPTION(graphic, i, 1))
+            continue;
         drawables_t drawables = get_drawable(graphic, i);
         for (node_t * actors = drawables.actors->head; actors;
                             actors = actors->next) {

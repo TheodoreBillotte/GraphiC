@@ -45,6 +45,8 @@ drawables_t get_scene_drawable(graphic_t *graphic, int scene, int layer)
 void draw_game(graphic_t *graphic)
 {
     for (int i = 0; i < graphic->nb_layers; i++) {
+        if (!GET_LAYER_OPTION(graphic, i, 0))
+            continue;
         for (node_t *list = get_drawable(graphic, i).actors->head; list;
                 list = list->next)
             sfRenderWindow_drawSprite(graphic->window,

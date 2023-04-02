@@ -14,21 +14,24 @@
 #include "textures.h"
 #include "drawables.h"
 
-actor_t * build_actor(graphic_t *graphic, int texture_id,
-                    int scene, int layer)
+actor_t * build_actor(graphic_t *graphic, actor_constructor_t constructor)
 {
     actor_t * actor = malloc(sizeof(actor_t));
 
     actor->sprite = sfSprite_create();
     actor->layer = 0;
-    actor->scene = scene;
+    actor->scene = constructor.scene;
     actor->id = graphic->ids->actor_id++;
-    actor->animation = NULL;
+    actor->animation = constructor.animation;
     actor->update = NULL;
     sfSprite_setTexture(actor->sprite,
-                        get_texture(graphic, texture_id)->texture, sfTrue);
+        get_texture(graphic, constructor.texture)->texture, sfTrue);
+    sfSprite_setPosition(actor->sprite, constructor.position);
+    sfSprite_setScale(actor->sprite, constructor.scale);
+    play_animation(actor);
     actor->rect = sfSprite_getGlobalBounds(actor->sprite);
-    list_append(get_scene_drawable(graphic, scene, layer).actors, actor);
+    list_append(get_scene_drawable(graphic,
+                constructor.scene, constructor.layer).actors, actor);
     return actor;
 }
 

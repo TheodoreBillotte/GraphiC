@@ -27,6 +27,8 @@ void check_hover(graphic_t * graphic)
     sfVector2i mouse_pos = sfMouse_getPositionRenderWindow(graphic->window);
 
     for (int layer = 0; layer < graphic->nb_layers; layer++) {
+        if (!GET_LAYER_OPTION(graphic, layer, 1))
+            continue;
         for (node_t *buttons = get_drawable(graphic, layer).buttons->head;
             buttons; buttons = buttons->next) {
             button_t *button = (button_t *) buttons->data;
@@ -44,6 +46,8 @@ void check_hover(graphic_t * graphic)
 void play_button(graphic_t * graphic, sfMouseButtonEvent mouse)
 {
     for (int layer = 0; layer < graphic->nb_layers; layer++) {
+        if (!GET_LAYER_OPTION(graphic, layer, 1))
+            continue;
         for (node_t *buttons = graphic->drawables[graphic->scene][layer]
             .buttons->head; buttons; buttons = buttons->next)
             cond_click_button(graphic, mouse, buttons->data);

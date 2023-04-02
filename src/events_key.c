@@ -12,6 +12,8 @@
 void play_key_pressed(graphic_t *graphic, sfTextEvent event)
 {
     for (int layer = 0; layer < graphic->nb_layers; layer++) {
+        if (!GET_LAYER_OPTION(graphic, layer, 1))
+            continue;
         for (node_t *text_inputs = get_drawable(graphic, layer).
             text_inputs->head; text_inputs; text_inputs = text_inputs->next) {
             text_input_t *text_input = (text_input_t *) text_inputs->data;

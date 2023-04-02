@@ -11,8 +11,7 @@
     #include <SFML/Graphics.h>
     #include "animations.h"
 
-actor_t * build_actor(graphic_t *graphic, int texture_id,
-                    int scene, int layer);
+actor_t * build_actor(graphic_t *graphic, actor_constructor_t constructor);
 void update_actor(graphic_t *graphic, actor_t *actor);
 void destroy_actor(actor_t *actor);
 void remove_actor(graphic_t *graphic, actor_t *actor);

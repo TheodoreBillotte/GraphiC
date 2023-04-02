@@ -12,6 +12,11 @@
     #include <SFML/Audio.h>
     #include "list.h"
 
+    #define GET_LAYER_OPTION(graphic, layer, x) \
+        ((((graphic)->layers_options[(layer)])) & (1 << (x)))
+    #define SWITCH_LAYER_OPTION(graphic, layer, x) \
+        (((graphic)->layers_options[(layer)]) ^= (1 << (x)))
+
 typedef struct drawables_s {
     list_t *actors;
     list_t *buttons;
@@ -46,6 +51,7 @@ typedef struct graphic {
     list_t *fonts;
     list_t *hover_buttons;
     drawables_t **drawables;
+    int *layers_options;
     ids_t *ids;
 
     void (*init)(struct graphic *);
@@ -66,6 +72,16 @@ typedef struct {
 
     sfIntRect rect;
 } animation_t;
+
+typedef struct actor_constructor_s {
+    sfVector2f position;
+    sfVector2f scale;
+    animation_t *animation;
+
+    int texture;
+    int layer;
+    int scene;
+} actor_constructor_t;
 
 typedef struct actor_s {
     animation_t *animation;
@@ -226,6 +242,17 @@ typedef struct text_input_s {
     void (*on_release)(graphic_t *, struct text_input_s *, sfMouseButtonEvent);
     void (*on_validate)(graphic_t *, struct text_input_s *);
 } text_input_t;
+
+typedef struct tilemap_constructor_s {
+    sfVector2f pos;
+    sfVector2f size;
+    char *csv_path;
+
+    int tile_size;
+    int texture;
+    int layer;
+    int scene;
+} tilemap_constructor_t;
 
 typedef struct {
     sfSoundBuffer *buffer;
