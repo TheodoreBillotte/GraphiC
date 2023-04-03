@@ -33,14 +33,13 @@ char **get_csv_line(char *line, int line_size)
 csv_t *get_csv(char *path)
 {
     FILE *file = fopen(path, "r");
-    struct stat st;
-    char ***buffer;
+    struct stat st;char ***buffer;
     sfVector2i size;
     char **line;
     char *file_buffer;
-
     stat(path, &st);
-    file_buffer = malloc(sizeof(char) * st.st_size + 1);
+    char *file_reader = malloc(sizeof(char) * st.st_size + 1);
+    file_buffer = file_reader;
     fread(file_buffer, st.st_size, 1, file);
     file_buffer[st.st_size] = '\0';
     size = (sfVector2i) {count_chars_delim(file_buffer, '\n', '\0'),
@@ -51,6 +50,7 @@ csv_t *get_csv(char *path)
         buffer[i] = line;
         file_buffer += strlen_delim(file_buffer, '\n') + 1;
     }
+    free(file_reader);
     return transform_csv(buffer, size);
 }
 
@@ -79,5 +79,13 @@ void free_csv_buffer(char ***csv, sfVector2i size)
             free(csv[i][j]);
         free(csv[i]);
     }
+    free(csv);
+}
+
+void free_csv(csv_t *csv)
+{
+    for (int i = 0; csv->csv[i] != NULL; i++)
+        free(csv->csv[i]);
+    free(csv->csv);
     free(csv);
 }

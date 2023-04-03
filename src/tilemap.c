@@ -39,4 +39,5 @@ void build_tilemap(graphic_t *graphic, tilemap_constructor_t constructor)
     for (int i = 0; i < csv->size.x; i++)
         for (int j = 0; j < csv->size.y; j++)
             create_tilemap(graphic, (sfVector2i) {i, j}, constructor, csv->csv);
+    free_csv(csv);
 }

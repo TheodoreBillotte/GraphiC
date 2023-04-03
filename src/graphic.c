@@ -9,7 +9,6 @@
 #include <SFML/Window.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include "graphic.h"
 #include "animations.h"
 #include "sounds.h"
@@ -107,6 +106,7 @@ void destroy_game(graphic_t * game)
     sfRenderWindow_destroy(game->window);
     sfClock_destroy(game->game_clock);
     sfView_destroy(game->view);
+    free(game->layers_options);
     free(game->ids);
     free(game);
 }

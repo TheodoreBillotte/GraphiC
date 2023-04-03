@@ -48,6 +48,7 @@ void destroy_text_input(text_input_t *text_input)
 {
     sfRectangleShape_destroy(text_input->bg);
     sfText_destroy(text_input->text);
+    free(text_input->content);
     free(text_input);
 }
 
