@@ -12,11 +12,6 @@
     #include <SFML/Audio.h>
     #include "list.h"
 
-    #define GET_LAYER_OPTION(graphic, layer, x) \
-        ((((graphic)->layers_options[(layer)])) & (1 << (x)))
-    #define SWITCH_LAYER_OPTION(graphic, layer, x) \
-        (((graphic)->layers_options[(layer)]) ^= (1 << (x)))
-
 typedef struct drawables_s {
     list_t *actors;
     list_t *buttons;
@@ -51,7 +46,7 @@ typedef struct graphic {
     list_t *fonts;
     list_t *hover_buttons;
     drawables_t **drawables;
-    int *layers_options;
+    int **layers_options;
     ids_t *ids;
 
     void (*init)(struct graphic *);

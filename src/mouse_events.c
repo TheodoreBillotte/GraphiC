@@ -10,6 +10,7 @@
 #include "sliders.h"
 #include "dropdown.h"
 #include "text_inputs.h"
+#include "layer_options.h"
 
 void cond_hover(graphic_t *graphic, sfVector2i mouse_pos,
                 button_t *button)

@@ -10,6 +10,7 @@
 #include "drawables.h"
 #include "dropdown.h"
 #include "text_inputs.h"
+#include "layer_options.h"
 
 void play_events(graphic_t * graphic)
 {

@@ -8,6 +8,7 @@
 #include "events.h"
 #include "drawables.h"
 #include "text_inputs.h"
+#include "layer_options.h"
 
 void play_key_pressed(graphic_t *graphic, sfTextEvent event)
 {

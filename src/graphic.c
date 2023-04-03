@@ -20,6 +20,7 @@
 #include "drawables.h"
 #include "ids.h"
 #include "sliders.h"
+#include "layer_options.h"
 
 graphic_t * build_game(sfRenderWindow *window, int nb_scenes, int nb_layers)
 {
@@ -36,8 +37,7 @@ graphic_t * build_game(sfRenderWindow *window, int nb_scenes, int nb_layers)
     game->nb_scenes = nb_scenes;
     game->nb_layers = nb_layers;
     game->drawables = create_drawables(nb_scenes, nb_layers);
-    game->layers_options = malloc(sizeof(int) * nb_layers);
-    memset(game->layers_options, 255, sizeof(int) * nb_layers);
+    game->layers_options = build_layer_options(game);
     game->ids = build_ids();
     return game;
 }
@@ -92,20 +92,22 @@ void destroy_lists(graphic_t * game)
         destroy_music(music->data);
     for (node_t * font = game->fonts->head; font; font = font->next)
         destroy_font(font->data);
+    list_free(game->hover_buttons, false);
+    list_free(game->textures, false);
+    list_free(game->sounds, false);
+    list_free(game->musics, false);
+    list_free(game->fonts, false);
 }
 
 void destroy_game(graphic_t * game)
 {
     destroy_lists(game);
     destroy_drawables(game);
-    list_free(game->textures, false);
-    list_free(game->sounds, false);
-    list_free(game->musics, false);
-    list_free(game->fonts, false);
-    list_free(game->hover_buttons, false);
     sfRenderWindow_destroy(game->window);
     sfClock_destroy(game->game_clock);
     sfView_destroy(game->view);
+    for (int i = 0; i < game->nb_scenes; i++)
+        free(game->layers_options[i]);
     free(game->layers_options);
     free(game->ids);
     free(game);

@@ -14,6 +14,7 @@
 #include "sliders.h"
 #include "dropdown.h"
 #include "text_inputs.h"
+#include "layer_options.h"
 
 drawables_t **create_drawables(int nb_scenes, int nb_layers)
 {
