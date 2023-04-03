@@ -14,7 +14,8 @@
 
 animation_t * build_animation(sfIntRect rect, sfVector2i size,
                                 sfVector2i offset, int speed);
-void destroy_animation(animation_t * animation);
-void play_animation(actor_t * actor);
+void destroy_animation(animation_t *animation);
+void check_animation(actor_t *actor);
+void play_animation(actor_t *actor);
 
 #endif

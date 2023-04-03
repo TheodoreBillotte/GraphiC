@@ -37,7 +37,7 @@ actor_t * build_actor(graphic_t *graphic, actor_constructor_t constructor)
 
 void update_actor(graphic_t *graphic, actor_t *actor)
 {
-    play_animation(actor);
+    check_animation(actor);
     if (actor->update)
         actor->update(graphic, actor);
 }
