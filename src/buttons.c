@@ -28,8 +28,11 @@ button_t * build_button(graphic_t * graphic, button_constructor_t constructor)
     sfSprite_setPosition(button->sprite, constructor.pos);
     sfSprite_setScale(button->sprite, constructor.size);
     button->rect = sfSprite_getGlobalBounds(button->sprite);
-    list_append(get_scene_drawable(graphic, button->scene, button->layer)
-                .buttons, button);
+    if (constructor.scene != -1)
+        list_append(get_scene_drawable(graphic, button->scene, button->layer)
+                    .buttons, button);
+    else
+        list_append(graphic->ui_layers[button->layer].buttons, button);
     return button;
 }
 

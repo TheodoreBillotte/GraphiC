@@ -21,3 +21,10 @@ int **build_layer_options(graphic_t *game)
     }
     return options;
 }
+
+int *build_ui_layer_options(graphic_t *game)
+{
+    int *options = malloc(sizeof(int) * game->nb_layers);
+    memset(options, 255, sizeof(int) * game->nb_layers);
+    return options;
+}

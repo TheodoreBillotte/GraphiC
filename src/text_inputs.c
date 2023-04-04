@@ -25,8 +25,9 @@ text_input_t *build_text_input(graphic_t *graphic,
     text_input->is_visible = true;
     setup_text_input(graphic, text_input, constructor);
     text_input->rect = sfText_getGlobalBounds(text_input->text);
-    list_append(get_drawable(graphic, text_input->layer).text_inputs,
-                text_input);
+    list_append(constructor.scene == -1 ? graphic->ui_layers[text_input->layer]
+            .text_inputs : get_scene_drawable(graphic, text_input->scene,
+            text_input->layer).text_inputs, text_input);
     return text_input;
 }
 

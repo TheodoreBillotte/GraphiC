@@ -13,6 +13,7 @@
 slider_t *build_slider(graphic_t *graphic, slider_constructor_t constructor)
 {
     slider_t *slider = malloc(sizeof(slider_t));
+
     slider->bar = sfSprite_create();
     slider->scroller = sfSprite_create();
     slider->value = constructor.min_value;
@@ -25,7 +26,11 @@ slider_t *build_slider(graphic_t *graphic, slider_constructor_t constructor)
     slider->on_release = NULL;
     slider->is_clicked = false;
     slider_set_values(graphic, slider, constructor);
-    list_append(get_drawable(graphic, constructor.layer).sliders, slider);
+    if (constructor.scene != -1)
+        list_append(get_scene_drawable(graphic, constructor.scene,
+                constructor.layer).sliders, slider);
+    else
+        list_append(graphic->ui_layers[constructor.layer].sliders, slider);
     return slider;
 }
 
@@ -42,14 +47,6 @@ void update_slider(graphic_t *graphic, slider_t *slider)
     slider->value = slider->min_value + (slider->max_value -
             slider->min_value) * (pos.x - bar.left) / bar.width;
     sfSprite_setPosition(slider->scroller, pos);
-}
-
-void update_sliders(graphic_t *graphic)
-{
-    for (int layer = 0; layer < graphic->nb_layers; layer++)
-        for (node_t *list = get_drawable(graphic, layer).sliders->head; list;
-                    list = list->next)
-            update_slider(graphic, list->data);
 }
 
 void slider_bar_click(graphic_t *graphic, slider_t *slider,

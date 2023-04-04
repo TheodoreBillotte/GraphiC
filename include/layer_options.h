@@ -11,10 +11,16 @@
     #include "graphic.h"
 
     #define GET_LAYER_OPTION(graphic, layer, x) \
-    (((graphic)->layers_options[(graphic)->scene][(layer)]) & (1 << (x)))
+        (((graphic)->layers_options[(graphic)->scene][(layer)]) & (1 << (x)))
     #define SWITCH_LAYER_OPTION(graphic, layer, x) \
-    (((graphic)->layers_options[(graphic)->scene][(layer)]) ^= (1 << (x)))
+        (((graphic)->layers_options[(graphic)->scene][(layer)]) ^= (1 << (x)))
+
+    #define GET_UI_LAYER_OPTION(graphic, layer, x) \
+        (((graphic)->ui_layers_options[(layer)]) & (1 << (x)))
+    #define SWITCH_UI_LAYER_OPTION(graphic, layer, x) \
+        (((graphic)->ui_layers_options[(layer)]) ^= (1 << (x)))
 
 int **build_layer_options(graphic_t *game);
+int *build_ui_layer_options(graphic_t *game);
 
 #endif

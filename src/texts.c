@@ -21,15 +21,15 @@ text_t *build_text(graphic_t * graphic, int font_id, int scene, int layer)
 
     if (!text || !font)
         return NULL;
-
     sfText_setFont(text, font);
-
     t->id = graphic->ids->text_id++;
     t->text = text;
     t->scene = scene;
     t->layer = layer;
-
-    list_append(get_scene_drawable(graphic, scene, layer).texts, t);
+    if (scene != -1)
+        list_append(get_scene_drawable(graphic, scene, layer).texts, t);
+    else
+        list_append(graphic->ui_layers[layer].texts, t);
     return t;
 }
 

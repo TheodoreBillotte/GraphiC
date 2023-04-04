@@ -14,15 +14,12 @@ dropdown_t *build_dropdown(graphic_t * graphic,
                         dropdown_constructor_t constructor)
 {
     dropdown_t *dropdown = malloc(sizeof(dropdown_t));
+    *dropdown = (dropdown_t) {0};
     dropdown->id = graphic->ids->dropdown_id++;
     dropdown->text = constructor.text;
-    dropdown->on_click = NULL;
-    dropdown->on_hover = NULL;
-    dropdown->on_release = NULL;
     dropdown->layer = constructor.layer;
     dropdown->scene = constructor.scene;
     dropdown->sprite = sfSprite_create();
-    dropdown->state = CLOSED;
     sfSprite_setTexture(dropdown->sprite, get_texture(graphic,
                         constructor.texture)->texture, sfFalse);
     sfSprite_setPosition(dropdown->sprite, constructor.pos);
@@ -31,7 +28,9 @@ dropdown_t *build_dropdown(graphic_t * graphic,
     sfRectangleShape_setSize(dropdown->bg, (sfVector2f){constructor.width, 0});
     sfRectangleShape_setFillColor(dropdown->bg, constructor.bg_color);
     dropdown->buttons = create_list();
-    list_append(get_drawable(graphic, dropdown->layer).dropdowns, dropdown);
+    list_append(dropdown->scene != -1 ? get_scene_drawable(graphic,
+        dropdown->scene, dropdown->layer).dropdowns :
+        graphic->ui_layers[dropdown->layer].dropdowns, dropdown);
     return dropdown;
 }
 

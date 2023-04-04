@@ -54,6 +54,27 @@ void release_button(graphic_t *graphic, sfMouseButtonEvent mouse)
                 text_inputs->head; text_inputs; text_inputs = text_inputs->next)
             text_input_release(graphic, text_inputs->data, mouse);
     }
+    ui_release_button(graphic, mouse);
+}
+
+void ui_release_button(graphic_t *graphic, sfMouseButtonEvent mouse)
+{
+    for (int layer = 0; layer < graphic->nb_layers; layer++) {
+        if (!GET_UI_LAYER_OPTION(graphic, layer, 1))
+            continue;
+        for (node_t *buttons = graphic->ui_layers[layer].buttons->head;
+             buttons; buttons = buttons->next)
+            check_release(graphic, mouse, buttons->data);
+        for (node_t *sliders = graphic->ui_layers[layer].sliders->head;
+             sliders; sliders = sliders->next)
+            slider_bar_release(graphic, sliders->data, mouse);
+        for (node_t *dropdowns = graphic->ui_layers[layer].dropdowns->head;
+             dropdowns; dropdowns = dropdowns->next)
+            cond_dropdown_release(graphic, dropdowns->data, mouse);
+        for (node_t *text_inputs = graphic->ui_layers[layer].
+                text_inputs->head; text_inputs; text_inputs = text_inputs->next)
+            text_input_release(graphic, text_inputs->data, mouse);
+    }
 }
 
 void check_release(graphic_t *graphic, sfMouseButtonEvent mouse,
@@ -75,9 +96,6 @@ void check_enter(graphic_t *graphic, button_t *button)
 void check_exit(graphic_t *graphic, sfVector2i mouse)
 {
     node_t *buttons = graphic->hover_buttons->head;
-
-    if (graphic->hover_buttons->head == NULL)
-        return;
     while (buttons) {
         button_t *button = (button_t *) buttons->data;
         if (button->on_leave && !sfFloatRect_contains(&button->rect,

@@ -30,8 +30,11 @@ actor_t * build_actor(graphic_t *graphic, actor_constructor_t constructor)
     sfSprite_setScale(actor->sprite, constructor.scale);
     play_animation(actor);
     actor->rect = sfSprite_getGlobalBounds(actor->sprite);
-    list_append(get_scene_drawable(graphic,
-                constructor.scene, constructor.layer).actors, actor);
+    if (constructor.scene != -1)
+        list_append(get_scene_drawable(graphic,
+            constructor.scene, constructor.layer).actors, actor);
+    else
+        list_append(graphic->ui_layers[constructor.layer].actors, actor);
     return actor;
 }
 

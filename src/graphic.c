@@ -7,7 +7,6 @@
 
 #include <SFML/Graphics.h>
 #include <SFML/Window.h>
-#include <stdlib.h>
 #include <string.h>
 #include "graphic.h"
 #include "animations.h"
@@ -21,6 +20,7 @@
 #include "ids.h"
 #include "sliders.h"
 #include "layer_options.h"
+#include "ui_layers.h"
 
 graphic_t * build_game(sfRenderWindow *window, int nb_scenes, int nb_layers)
 {
@@ -38,6 +38,9 @@ graphic_t * build_game(sfRenderWindow *window, int nb_scenes, int nb_layers)
     game->nb_layers = nb_layers;
     game->drawables = create_drawables(nb_scenes, nb_layers);
     game->layers_options = build_layer_options(game);
+    game->ui_layers = build_ui_layers(game);
+    game->ui_layers_options = build_ui_layer_options(game);
+
     game->ids = build_ids();
     return game;
 }
@@ -55,6 +58,7 @@ void init_game(graphic_t * game)
         if (game->draw != NULL)
             game->draw(game);
         draw_game(game);
+        draw_ui_layers(game);
         sfRenderWindow_display(game->window);
     }
     if (game->close != NULL)
@@ -65,21 +69,25 @@ void init_game(graphic_t * game)
 void game_update(graphic_t * graphic)
 {
     for (int i = 0; i < graphic->nb_layers; i++) {
-        if (!GET_LAYER_OPTION(graphic, i, 1))
-            continue;
+        if (!GET_LAYER_OPTION(graphic, i, 1)) continue;
         drawables_t drawables = get_drawable(graphic, i);
-        for (node_t * actors = drawables.actors->head; actors;
-                            actors = actors->next) {
-            actor_t * actor = (actor_t *) actors->data;
-            update_actor(graphic, actor);
-        }
-        for (node_t * buttons = drawables.buttons->head; buttons;
-                            buttons = buttons->next) {
-            button_t * button = (button_t *) buttons->data;
-            update_button(button);
-        }
+        for (node_t *list = drawables.actors->head; list; list = list->next)
+            update_actor(graphic, list->data);
+        for (node_t *list = drawables.buttons->head; list; list = list->next)
+            update_button(list->data);
+        for (node_t *list = drawables.sliders->head; list; list = list->next)
+            update_slider(graphic, list->data);
     }
-    update_sliders(graphic);
+    for (int i = 0; i < graphic->nb_layers; i++) {
+        if (!GET_UI_LAYER_OPTION(graphic, i, 1)) continue;
+        drawables_t drawables = graphic->ui_layers[i];
+        for (node_t *list = drawables.actors->head; list; list = list->next)
+            update_actor(graphic, list->data);
+        for (node_t *list = drawables.buttons->head; list; list = list->next)
+            update_button(list->data);
+        for (node_t *list = drawables.sliders->head; list; list = list->next)
+            update_slider(graphic, list->data);
+    }
 }
 
 void destroy_lists(graphic_t * game)
@@ -103,11 +111,13 @@ void destroy_game(graphic_t * game)
 {
     destroy_lists(game);
     destroy_drawables(game);
+    destroy_ui_layers(game);
     sfRenderWindow_destroy(game->window);
     sfClock_destroy(game->game_clock);
     sfView_destroy(game->view);
     for (int i = 0; i < game->nb_scenes; i++)
         free(game->layers_options[i]);
+    free(game->ui_layers_options);
     free(game->layers_options);
     free(game->ids);
     free(game);

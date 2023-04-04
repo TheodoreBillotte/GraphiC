@@ -46,7 +46,9 @@ typedef struct graphic {
     list_t *fonts;
     list_t *hover_buttons;
     drawables_t **drawables;
+    drawables_t *ui_layers;
     int **layers_options;
+    int *ui_layers_options;
     ids_t *ids;
 
     void (*init)(struct graphic *);
