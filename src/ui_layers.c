@@ -58,9 +58,9 @@ void draw_ui_layers_next(graphic_t *graphic, int layer)
     for (node_t *list = graphic->ui_layers[layer].sliders->head; list;
             list = list->next) {
         sfRenderWindow_drawSprite(graphic->window,
-                                  ((slider_t *) list->data)->bar, NULL);
+            ((slider_t *) list->data)->bar, NULL);
         sfRenderWindow_drawSprite(graphic->window,
-                                  ((slider_t *) list->data)->scroller, NULL);
+            ((slider_t *) list->data)->scroller, NULL);
     }
     for (node_t *list = graphic->ui_layers[layer].dropdowns->head; list;
             list = list->next)
@@ -68,9 +68,9 @@ void draw_ui_layers_next(graphic_t *graphic, int layer)
     for (node_t *list = graphic->ui_layers[layer].text_inputs->head; list;
             list = list->next) {
         sfRenderWindow_drawRectangleShape(graphic->window,
-                                          ((text_input_t *) list->data)->bg, NULL);
+            ((text_input_t *) list->data)->bg, NULL);
         sfRenderWindow_drawText(graphic->window,
-                                ((text_input_t *) list->data)->text, NULL);
+            ((text_input_t *) list->data)->text, NULL);
     }
 }
 

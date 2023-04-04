@@ -31,3 +31,19 @@ void play_key_pressed(graphic_t *graphic, sfTextEvent event)
         }
     }
 }
+
+void check_exit(graphic_t *graphic, sfVector2i mouse)
+{
+    node_t *buttons = graphic->hover_buttons->head;
+    while (buttons) {
+        button_t *button = (button_t *) buttons->data;
+        if (button->on_leave && !sfFloatRect_contains(&button->rect,
+                (float) mouse.x, (float) mouse.y)) {
+            button->on_leave(graphic, button);
+            buttons = buttons->prev;
+            list_remove_data(graphic->hover_buttons, button, false);
+        }
+        if (buttons)
+            buttons = buttons->next;
+    }
+}
