@@ -7,7 +7,6 @@
 
 #include <SFML/Graphics.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include "buttons.h"
 #include "graphic.h"
 #include "textures.h"

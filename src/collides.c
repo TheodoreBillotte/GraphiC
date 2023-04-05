@@ -5,7 +5,6 @@
 ** file for collides functions
 */
 
-#include <stdio.h>
 #include "collides.h"
 #include "drawables.h"
 

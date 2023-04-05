@@ -5,7 +5,6 @@
 ** file for dropdown functions
 */
 
-#include <stdio.h>
 #include "dropdown.h"
 #include "events.h"
 

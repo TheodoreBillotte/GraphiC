@@ -87,8 +87,9 @@ void check_release(graphic_t *graphic, sfMouseButtonEvent mouse,
 
 void check_enter(graphic_t *graphic, button_t *button)
 {
-    if (button->on_enter && !list_contains(graphic->hover_buttons, button)) {
-        button->on_enter(graphic, button);
+    if (!list_contains(graphic->hover_buttons, button)) {
+        if (button->on_enter)
+            button->on_enter(graphic, button);
         list_append(graphic->hover_buttons, button);
     }
 }
