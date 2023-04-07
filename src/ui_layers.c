@@ -13,6 +13,7 @@
 #include "sliders.h"
 #include "dropdown.h"
 #include "text_inputs.h"
+#include "dialog.h"
 
 drawables_t *build_ui_layers(graphic_t *graphic)
 {
@@ -25,6 +26,7 @@ drawables_t *build_ui_layers(graphic_t *graphic)
         ui_layers[i].sliders = create_list();
         ui_layers[i].dropdowns = create_list();
         ui_layers[i].text_inputs = create_list();
+        ui_layers[i].dialogs = create_list();
     }
     return ui_layers;
 }
@@ -39,12 +41,8 @@ void draw_ui_layers(graphic_t *graphic)
             sfRenderWindow_drawSprite(graphic->window,
                 ((actor_t *) list->data)->sprite, NULL);
         for (node_t *list = graphic->ui_layers[i].buttons->head; list;
-                list = list->next) {
-            ((button_t *) list->data)->on_draw ?
-                ((button_t *) list->data)->on_draw(graphic, list->data) : 0;
-            sfRenderWindow_drawSprite(graphic->window,
-                ((button_t *) list->data)->sprite, NULL);
-        }
+                list = list->next)
+            draw_button(graphic, (button_t *) list->data);
         for (node_t *list = graphic->ui_layers[i].texts->head; list;
                 list = list->next)
             sfRenderWindow_drawText(graphic->window,
@@ -56,22 +54,17 @@ void draw_ui_layers(graphic_t *graphic)
 void draw_ui_layers_next(graphic_t *graphic, int layer)
 {
     for (node_t *list = graphic->ui_layers[layer].sliders->head; list;
-            list = list->next) {
-        sfRenderWindow_drawSprite(graphic->window,
-            ((slider_t *) list->data)->bar, NULL);
-        sfRenderWindow_drawSprite(graphic->window,
-            ((slider_t *) list->data)->scroller, NULL);
-    }
+            list = list->next)
+        draw_slider(graphic, (slider_t *) list->data);
     for (node_t *list = graphic->ui_layers[layer].dropdowns->head; list;
             list = list->next)
         draw_dropdown(graphic, (dropdown_t *) list->data);
     for (node_t *list = graphic->ui_layers[layer].text_inputs->head; list;
-            list = list->next) {
-        sfRenderWindow_drawRectangleShape(graphic->window,
-            ((text_input_t *) list->data)->bg, NULL);
-        sfRenderWindow_drawText(graphic->window,
-            ((text_input_t *) list->data)->text, NULL);
-    }
+            list = list->next)
+        draw_text_input(graphic, (text_input_t *) list->data);
+    for (node_t *list = graphic->ui_layers[layer].dialogs->head; list;
+            list = list->next)
+        draw_dialog(graphic, (dialog_t *) list->data);
 }
 
 void destroy_ui_layers(graphic_t *graphic)
@@ -83,6 +76,23 @@ void destroy_ui_layers(graphic_t *graphic)
         destroy_slider_list(graphic->ui_layers[i].sliders);
         destroy_dropdown_list(graphic->ui_layers[i].dropdowns);
         destroy_text_input_list(graphic->ui_layers[i].text_inputs);
+        destroy_dialog_list(graphic->ui_layers[i].dialogs);
     }
     free(graphic->ui_layers);
+}
+
+void update_ui_layers(graphic_t *graphic)
+{
+    for (int i = 0; i < graphic->nb_layers; i++) {
+        if (!GET_UI_LAYER_OPTION(graphic, i, 1)) continue;
+        drawables_t drawables = graphic->ui_layers[i];
+        for (node_t *list = drawables.actors->head; list; list = list->next)
+            update_actor(graphic, list->data);
+        for (node_t *list = drawables.buttons->head; list; list = list->next)
+            update_button(list->data);
+        for (node_t *list = drawables.sliders->head; list; list = list->next)
+            update_slider(graphic, list->data);
+        for (node_t *list = drawables.dialogs->head; list; list = list->next)
+            update_dialog(graphic, list->data);
+    }
 }

@@ -15,5 +15,6 @@ drawables_t *build_ui_layers(graphic_t *graphic);
 void draw_ui_layers(graphic_t *graphic);
 void draw_ui_layers_next(graphic_t *graphic, int layer);
 void destroy_ui_layers(graphic_t *graphic);
+void update_ui_layers(graphic_t *graphic);
 
 #endif

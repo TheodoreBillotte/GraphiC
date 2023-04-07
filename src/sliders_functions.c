@@ -49,3 +49,9 @@ void cond_click_slider(graphic_t *graphic, sfMouseButtonEvent mouse,
     } else if (sfFloatRect_contains(&bar_rect, mouse.x, mouse.y))
         slider_bar_click(graphic, slider, mouse);
 }
+
+void draw_slider(graphic_t *graphic, slider_t *slider)
+{
+    sfRenderWindow_drawSprite(graphic->window, slider->bar, NULL);
+    sfRenderWindow_drawSprite(graphic->window, slider->scroller, NULL);
+}

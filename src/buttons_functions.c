@@ -50,3 +50,10 @@ void cond_click_button(graphic_t *graphic, sfMouseButtonEvent mouse,
             mouse.x, (float) mouse.y))
         button->on_click(graphic, button, mouse);
 }
+
+void draw_button(graphic_t *graphic, button_t *button)
+{
+    if (button->on_draw)
+        button->on_draw(graphic, button);
+    sfRenderWindow_drawSprite(graphic->window, button->sprite, NULL);
+}

@@ -11,6 +11,7 @@
 #include "dropdown.h"
 #include "text_inputs.h"
 #include "layer_options.h"
+#include "dialog.h"
 
 void cond_hover(graphic_t *graphic, sfVector2i mouse_pos,
                 button_t *button)
@@ -82,6 +83,9 @@ void play_button(graphic_t * graphic, sfMouseButtonEvent mouse)
         for (node_t *texts = get_drawable(graphic, layer).text_inputs->head;
             texts; texts = texts->next)
             text_input_click(graphic, texts->data, mouse);
+        for (node_t *texts = get_drawable(graphic, layer).dialogs->head;
+            texts; texts = texts->next)
+            dialog_check_click(graphic, texts->data, mouse);
     }
     play_ui_button(graphic, mouse);
 }

@@ -12,10 +12,6 @@ ids_t * build_ids(void)
 {
     ids_t * ids = malloc(sizeof(ids_t));
 
-    ids->actor_id = 0;
-    ids->button_id = 0;
-    ids->slider_id = 0;
-    ids->text_id = 0;
-    ids->dropdown_id = 0;
+    *ids = (ids_t) {0};
     return ids;
 }

@@ -11,7 +11,7 @@
     #include "graphic.h"
 
 button_t * build_button(graphic_t * graphic, button_constructor_t constructor);
-void draw_buttons(graphic_t * graphic);
+void draw_button(graphic_t * graphic, button_t *button);
 void destroy_button(button_t * button);
 void update_button(button_t * button);
 button_t * get_button(graphic_t * graphic, int id);

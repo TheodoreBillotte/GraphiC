@@ -21,6 +21,7 @@
 #include "sliders.h"
 #include "layer_options.h"
 #include "ui_layers.h"
+#include "dialog.h"
 
 graphic_t * build_game(sfRenderWindow *window, int nb_scenes, int nb_layers)
 {
@@ -40,7 +41,6 @@ graphic_t * build_game(sfRenderWindow *window, int nb_scenes, int nb_layers)
     game->layers_options = build_layer_options(game);
     game->ui_layers = build_ui_layers(game);
     game->ui_layers_options = build_ui_layer_options(game);
-
     game->ids = build_ids();
     return game;
 }
@@ -77,17 +77,10 @@ void game_update(graphic_t * graphic)
             update_button(list->data);
         for (node_t *list = drawables.sliders->head; list; list = list->next)
             update_slider(graphic, list->data);
+        for (node_t *list = drawables.dialogs->head; list; list = list->next)
+            update_dialog(graphic, list->data);
     }
-    for (int i = 0; i < graphic->nb_layers; i++) {
-        if (!GET_UI_LAYER_OPTION(graphic, i, 1)) continue;
-        drawables_t drawables = graphic->ui_layers[i];
-        for (node_t *list = drawables.actors->head; list; list = list->next)
-            update_actor(graphic, list->data);
-        for (node_t *list = drawables.buttons->head; list; list = list->next)
-            update_button(list->data);
-        for (node_t *list = drawables.sliders->head; list; list = list->next)
-            update_slider(graphic, list->data);
-    }
+    update_ui_layers(graphic);
 }
 
 void destroy_lists(graphic_t * game)

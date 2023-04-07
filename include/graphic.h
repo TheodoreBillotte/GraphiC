@@ -19,6 +19,7 @@ typedef struct drawables_s {
     list_t *sliders;
     list_t *dropdowns;
     list_t *text_inputs;
+    list_t *dialogs;
 } drawables_t;
 
 typedef struct ids_s {
@@ -28,6 +29,7 @@ typedef struct ids_s {
     int text_id;
     int dropdown_id;
     int text_input_id;
+    int dialog_id;
 } ids_t;
 
 typedef struct graphic {
@@ -250,6 +252,41 @@ typedef struct tilemap_constructor_s {
     int layer;
     int scene;
 } tilemap_constructor_t;
+
+typedef struct dialog_constructor_s {
+    sfVector2f text_pos;
+    sfColor text_color;
+    int char_size;
+    int max_char;
+    int font;
+
+    sfVector2f bg_pos;
+    sfVector2f bg_size;
+    sfColor bg_color;
+
+    int delay;
+    int layer;
+    int scene;
+} dialog_constructor_t;
+
+typedef struct dialog_s {
+    sfText *text;
+    sfRectangleShape *bg;
+
+    sfClock *clock;
+    char **dialog;
+    char *display;
+    int text_index;
+    int dialog_index;
+    int delay;
+    int layer;
+    int scene;
+    int id;
+
+    void (*on_click)(graphic_t *, struct dialog_s *, sfMouseButtonEvent);
+    void (*on_update)(graphic_t *, struct dialog_s *);
+    void (*on_finish)(graphic_t *, struct dialog_s *);
+} dialog_t;
 
 typedef struct {
     sfSoundBuffer *buffer;
