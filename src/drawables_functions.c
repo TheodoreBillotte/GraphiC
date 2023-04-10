@@ -11,6 +11,7 @@
 #include "text_inputs.h"
 #include "dialog.h"
 #include "sliders.h"
+#include "tilemap.h"
 
 void draw_others(graphic_t *graphic, int layer)
 {
@@ -26,4 +27,7 @@ void draw_others(graphic_t *graphic, int layer)
     for (node_t *list = get_drawable(graphic, layer).dialogs->head; list;
                 list = list->next)
         draw_dialog(graphic, (dialog_t *) list->data);
+    for (node_t *list = get_drawable(graphic, layer).tilemaps->head; list;
+                list = list->next)
+        draw_tilemap(graphic, (tilemap_t *) list->data);
 }

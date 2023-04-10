@@ -10,6 +10,9 @@
 
     #include "graphic.h"
 
-void build_tilemap(graphic_t *graphic, tilemap_constructor_t constructor);
+tilemap_t *build_tilemap(graphic_t *graphic, tilemap_constructor_t constructor);
+void draw_tilemap(graphic_t *graphic, tilemap_t *tilemap);
+void destroy_tilemap(tilemap_t *tilemap);
+void destroy_tilemap_list(list_t *list);
 
 #endif

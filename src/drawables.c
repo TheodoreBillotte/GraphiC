@@ -16,6 +16,7 @@
 #include "text_inputs.h"
 #include "layer_options.h"
 #include "dialog.h"
+#include "tilemap.h"
 
 drawables_t **create_drawables(int nb_scenes, int nb_layers)
 {
@@ -30,6 +31,7 @@ drawables_t **create_drawables(int nb_scenes, int nb_layers)
             drawables[i][j].dropdowns = create_list();
             drawables[i][j].text_inputs = create_list();
             drawables[i][j].dialogs = create_list();
+            drawables[i][j].tilemaps = create_list();
         }
     }
     return drawables;
@@ -76,6 +78,7 @@ void destroy_drawables(graphic_t *graphic)
             destroy_dropdown_list(graphic->drawables[i][j].dropdowns);
             destroy_text_input_list(graphic->drawables[i][j].text_inputs);
             destroy_dialog_list(graphic->drawables[i][j].dialogs);
+            destroy_dialog_list(graphic->drawables[i][j].tilemaps);
         }
         free(graphic->drawables[i]);
     }

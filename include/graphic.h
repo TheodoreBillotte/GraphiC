@@ -20,6 +20,7 @@ typedef struct drawables_s {
     list_t *dropdowns;
     list_t *text_inputs;
     list_t *dialogs;
+    list_t *tilemaps;
 } drawables_t;
 
 typedef struct ids_s {
@@ -243,8 +244,8 @@ typedef struct text_input_s {
 } text_input_t;
 
 typedef struct tilemap_constructor_s {
+    sfVector2f scale;
     sfVector2f pos;
-    sfVector2f size;
     char *csv_path;
 
     int tile_size;
@@ -252,6 +253,20 @@ typedef struct tilemap_constructor_s {
     int layer;
     int scene;
 } tilemap_constructor_t;
+
+typedef struct tilemap_s {
+    sfVector2u tiles_count;
+    sfTexture *texture;
+    sfVector2f scale;
+    sfVector2f pos;
+    sfSprite *sprite;
+
+    int **map;
+    int tile_size;
+    int layer;
+    int scene;
+    int id;
+} tilemap_t;
 
 typedef struct dialog_constructor_s {
     sfVector2f text_pos;
