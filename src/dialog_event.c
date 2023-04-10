@@ -29,6 +29,7 @@ void dialog_check_click(graphic_t *graphic, dialog_t *dialog,
                         sfMouseButtonEvent event)
 {
     sfFloatRect bound = sfRectangleShape_getGlobalBounds(dialog->bg);
+
     if (!sfFloatRect_contains(&bound, event.x, event.y))
         return;
     if (dialog->on_click)

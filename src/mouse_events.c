@@ -107,5 +107,8 @@ void play_ui_button(graphic_t * graphic, sfMouseButtonEvent mouse)
         for (node_t *texts = graphic->ui_layers[layer].text_inputs->head;
             texts; texts = texts->next)
             text_input_click(graphic, texts->data, mouse);
+        for (node_t *texts = graphic->ui_layers[layer].dialogs->head;
+            texts; texts = texts->next)
+            dialog_check_click(graphic, texts->data, mouse);
     }
 }
