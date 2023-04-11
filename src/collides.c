@@ -5,19 +5,38 @@
 ** file for collides functions
 */
 
+#include <stdio.h>
 #include "collides.h"
-#include "drawables.h"
 
-sfFloatRect check_collides(graphic_t *graphic, int layer, sfFloatRect rect)
+static sfFloatRect collide(int i, tilemap_t *tm, sfFloatRect rect)
 {
-    sfFloatRect diff = {0, 0, 0, 0};
+    sfFloatRect tile;
+    sfFloatRect collide;
 
-    for (node_t *drawables = get_drawable(graphic, layer).actors->head;
-        drawables; drawables = drawables->next) {
-        actor_t *actor = (actor_t *) drawables->data;
-        sfFloatRect bounds = sfSprite_getGlobalBounds(actor->sprite);
-        if (sfFloatRect_intersects(&rect, &bounds, &diff))
-            return diff;
+    for (int j = 0; tm->map[i][j] != -2; j++) {
+        if (tm->map[i][j] == -1)
+            continue;
+        tile = (sfFloatRect) {
+            tm->pos.x + j * tm->tile_size * tm->scale.x,
+            tm->pos.y + i * tm->tile_size * tm->scale.y,
+            tm->tile_size * tm->scale.x,
+            tm->tile_size * tm->scale.y};
+        if (sfFloatRect_intersects(&rect, &tile, &collide))
+            return collide;
     }
-    return diff;
+    tile = (sfFloatRect) {0, 0, 0, 0};
+    return tile;
+}
+
+sfFloatRect check_collides(tilemap_t *tm, sfFloatRect rect)
+{
+    sfFloatRect tile;
+
+    for (int i = 0; tm->map[i]; i++) {
+        tile = collide(i, tm, rect);
+        if (tile.width != 0 && tile.height != 0)
+            return tile;
+    }
+    tile = (sfFloatRect) {0, 0, 0, 0};
+    return tile;
 }

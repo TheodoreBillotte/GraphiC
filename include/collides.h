@@ -10,6 +10,6 @@
 
     #include "graphic.h"
 
-sfFloatRect check_collides(graphic_t *graphic, int layer, sfFloatRect rect);
+sfFloatRect check_collides(tilemap_t *tm, sfFloatRect rect);
 
 #endif
