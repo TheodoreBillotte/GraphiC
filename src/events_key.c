@@ -32,7 +32,7 @@ void play_key_pressed(graphic_t *graphic, sfTextEvent event)
     }
 }
 
-void check_exit(graphic_t *graphic, sfVector2i mouse)
+void check_exit(graphic_t *graphic, sfVector2f mouse)
 {
     for (node_t *buttons = graphic->hover_buttons->head; buttons;
         buttons = buttons ? buttons->next : NULL) {

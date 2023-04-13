@@ -50,8 +50,8 @@ void init_game(graphic_t * game)
     if (game->init != NULL)
         game->init(game);
     while (sfRenderWindow_isOpen(game->window)) {
-        play_events(game);
         sfRenderWindow_clear(game->window, sfBlack);
+        play_events(game);
         if (game->update != NULL)
             game->update(game);
         game_update(game);

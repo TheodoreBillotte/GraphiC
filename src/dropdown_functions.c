@@ -27,7 +27,7 @@ void cond_click_dropdown(graphic_t *graphic, dropdown_t *dropdown,
     dropdown->state = CLOSED;
 }
 
-void cond_dropdown_hover(graphic_t *graphic, sfVector2i mouse,
+void cond_dropdown_hover(graphic_t *graphic, sfVector2f mouse,
                         dropdown_t *dropdown)
 {
     sfFloatRect rect = sfSprite_getGlobalBounds(dropdown->sprite);

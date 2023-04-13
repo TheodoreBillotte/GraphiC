@@ -15,14 +15,9 @@
 void play_events(graphic_t * graphic)
 {
     sfEvent event;
+    graphic->mouse_pos = get_mouse_pos(graphic->window);
     check_hover(graphic);
     while (sfRenderWindow_pollEvent(graphic->window, &event)) {
-        if (event.type == sfEvtResized) {
-            sfView_destroy(graphic->view);
-            graphic->view = sfView_createFromRect((sfFloatRect) {0, 0,
-                event.size.width, event.size.height});
-            sfRenderWindow_setView(graphic->window, graphic->view);
-        }
         if (event.type == sfEvtClosed)
             sfRenderWindow_close(graphic->window);
         if (event.type == sfEvtMouseButtonPressed)
@@ -38,9 +33,10 @@ void play_events(graphic_t * graphic)
 
 void release_button(graphic_t *graphic, sfMouseButtonEvent mouse)
 {
+    mouse.x = graphic->mouse_pos.x;
+    mouse.y = graphic->mouse_pos.y;
     for (int layer = 0; layer < graphic->nb_layers; layer++) {
-        if (!GET_LAYER_OPTION(graphic, layer, 1))
-            continue;
+        if (!GET_LAYER_OPTION(graphic, layer, 1)) continue;
         for (node_t *buttons = get_drawable(graphic, layer).buttons->head;
                 buttons; buttons = buttons->next)
             check_release(graphic, mouse, buttons->data);

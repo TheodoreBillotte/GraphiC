@@ -24,7 +24,7 @@ void cond_dropdown_release(graphic_t *graphic, dropdown_t *dropdown,
                             sfMouseButtonEvent button);
 void draw_dropdown(graphic_t *graphic, dropdown_t *dropdown);
 void draw_dropdown_button(graphic_t *graphic, button_t *button);
-void cond_dropdown_hover(graphic_t *graphic, sfVector2i mouse,
+void cond_dropdown_hover(graphic_t *graphic, sfVector2f mouse,
                             dropdown_t *dropdown);
 void setup_new_button(dropdown_t *dropdown, button_t *button);
 void change_bg_pos(dropdown_t *dropdown);

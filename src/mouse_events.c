@@ -13,7 +13,7 @@
 #include "layer_options.h"
 #include "dialog.h"
 
-void cond_hover(graphic_t *graphic, sfVector2i mouse_pos,
+void cond_hover(graphic_t *graphic, sfVector2f mouse_pos,
                 button_t *button)
 {
     if (sfFloatRect_contains(&button->rect,
@@ -24,9 +24,9 @@ void cond_hover(graphic_t *graphic, sfVector2i mouse_pos,
     }
 }
 
-void check_hover(graphic_t * graphic)
+void check_hover(graphic_t *graphic)
 {
-    sfVector2i mouse_pos = sfMouse_getPositionRenderWindow(graphic->window);
+    sfVector2f mouse_pos = graphic->mouse_pos;
 
     for (int layer = 0; layer < graphic->nb_layers; layer++) {
         if (!GET_LAYER_OPTION(graphic, layer, 1))
@@ -48,7 +48,7 @@ void check_hover(graphic_t * graphic)
 
 void check_ui_hover(graphic_t * graphic)
 {
-    sfVector2i mouse_pos = sfMouse_getPositionRenderWindow(graphic->window);
+    sfVector2f mouse_pos = graphic->mouse_pos;
 
     for (int layer = 0; layer < graphic->nb_layers; layer++) {
         if (!GET_UI_LAYER_OPTION(graphic, layer, 1))
@@ -66,11 +66,11 @@ void check_ui_hover(graphic_t * graphic)
     }
 }
 
-void play_button(graphic_t * graphic, sfMouseButtonEvent mouse)
+void play_button(graphic_t *graphic, sfMouseButtonEvent mouse)
 {
+    mouse.x = graphic->mouse_pos.x;mouse.y = graphic->mouse_pos.y;
     for (int layer = 0; layer < graphic->nb_layers; layer++) {
-        if (!GET_LAYER_OPTION(graphic, layer, 1))
-            continue;
+        if (!GET_LAYER_OPTION(graphic, layer, 1)) continue;
         for (node_t *buttons = graphic->drawables[graphic->scene][layer]
             .buttons->head; buttons; buttons = buttons->next)
             cond_click_button(graphic, mouse, buttons->data);

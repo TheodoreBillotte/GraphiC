@@ -37,7 +37,7 @@ slider_t *build_slider(graphic_t *graphic, slider_constructor_t constructor)
 void update_slider(graphic_t *graphic, slider_t *slider)
 {
     sfVector2f pos = sfSprite_getPosition(slider->scroller);
-    sfVector2i mouse_pos = sfMouse_getPositionRenderWindow(graphic->window);
+    sfVector2f mouse_pos = graphic->mouse_pos;
     sfFloatRect bar = sfSprite_getGlobalBounds(slider->bar);
 
     if (!slider->is_clicked)

@@ -36,6 +36,7 @@ typedef struct ids_s {
 typedef struct graphic {
     sfRenderWindow *window;
     sfClock *game_clock;
+    sfVector2f mouse_pos;
     sfView *view;
 
     void *game_data;
@@ -328,5 +329,7 @@ graphic_t *build_game(sfRenderWindow *window, int nb_scenes, int nb_layers);
 void init_game(graphic_t *game);
 void game_update(graphic_t *graphic);
 void destroy_game(graphic_t *game);
+
+sfVector2f get_mouse_pos(sfRenderWindow *window);
 
 #endif
